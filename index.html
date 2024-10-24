@@ -1197,7 +1197,7 @@
     document.querySelector('.orderButton').addEventListener('click', function() {
     const dishName = encodeURIComponent(document.getElementById('dishInput').value.trim());
     const zomatoUrl = `zomato://search?q=${dishName}`;
-    window.location.href = zomatoUrl;
+    window.location.href = `zomato://search?q=${encodeURIComponent(dishName)}`;
 });
 });
                                 } else {
