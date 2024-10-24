@@ -132,45 +132,6 @@
             text-shadow: 0 0 6px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);
     }
 }
-.shake-popup {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 0.5rem;
-    z-index: 1001; /* Make sure it's above other content */
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.hidden {
-    display: none; /* Hide by default */
-}
-
-.popup-content {
-    text-align: center;
-}
-
-.app-logo {
-    width: 100px; /* Adjust size as needed */
-    margin-bottom: 10px;
-}
-
-.close-button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #ffc400;
-    color: #000;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-}
-
         
     </style>
 </head>
@@ -189,55 +150,10 @@
         </div>
         <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px;">Search</button>
         <div id="recipeContainer" class="mt-4"></div>
-        <div id="shakePopup" class="shake-popup hidden">
-            <div class="popup-content">
-                <img src="20241023_142802.png" alt="App Logo" class="app-logo" />
-                <p class="description">This is your app description.</p>
-                <p class="developer">Developed by Your Name</p>
-                <button id="closePopup" class="close-button">Close</button>
-            </div>
-        </div>
     </div>
-
 </body>
-<script>
-    let lastX = 0, lastY = 0, lastZ = 0;
-    let lastTime = 0;
-    const shakeThreshold = 5; // Set a low threshold for sensitivity
-    const shakePopup = document.getElementById('shakePopup');
-    const closePopupButton = document.getElementById('closePopup');
 
-    window.addEventListener('devicemotion', (event) => {
-        const acceleration = event.accelerationIncludingGravity;
-
-        const currentTime = new Date().getTime();
-        if (lastTime && (currentTime - lastTime) > 100) {
-            const deltaX = acceleration.x - lastX;
-            const deltaY = acceleration.y - lastY;
-            const deltaZ = acceleration.z - lastZ;
-            const shakeMagnitude = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-            console.log("Shake Magnitude: ", shakeMagnitude); // Check shake magnitude
-
-            if (shakeMagnitude > shakeThreshold) {
-                shakePopup.style.display = 'flex'; // Show the popup
-                setTimeout(() => {
-                    shakePopup.style.display = 'none'; // Auto-hide after 3 seconds
-                }, 3000);
-            }
-        }
-
-        // Update last known values
-        lastX = acceleration.x;
-        lastY = acceleration.y;
-        lastZ = acceleration.z;
-        lastTime = currentTime;
-    });
-
-    closePopupButton.addEventListener('click', () => {
-        shakePopup.style.display = 'none'; // Close the popup
-    });
-</script>
+        
     <script>
         const dishInput = document.getElementById('dishInput');
         const autocompleteList = document.getElementById('autocomplete-list');
