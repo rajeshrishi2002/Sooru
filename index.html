@@ -203,7 +203,7 @@
 <script>
     let lastX = 0, lastY = 0, lastZ = 0;
     let lastTime = 0;
-    const shakeThreshold = 5; // Adjust sensitivity
+    const shakeThreshold = 5; // Set a low threshold for sensitivity
     const shakePopup = document.getElementById('shakePopup');
     const closePopupButton = document.getElementById('closePopup');
 
@@ -217,11 +217,13 @@
             const deltaZ = acceleration.z - lastZ;
             const shakeMagnitude = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
+            console.log("Shake Magnitude: ", shakeMagnitude); // Check shake magnitude
+
             if (shakeMagnitude > shakeThreshold) {
                 shakePopup.style.display = 'flex'; // Show the popup
                 setTimeout(() => {
                     shakePopup.style.display = 'none'; // Auto-hide after 3 seconds
-                }, 6000);
+                }, 3000);
             }
         }
 
@@ -236,7 +238,6 @@
         shakePopup.style.display = 'none'; // Close the popup
     });
 </script>
-        
     <script>
         const dishInput = document.getElementById('dishInput');
         const autocompleteList = document.getElementById('autocomplete-list');
