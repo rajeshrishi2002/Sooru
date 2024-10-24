@@ -189,27 +189,28 @@
         </div>
         <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px;">Search</button>
         <div id="recipeContainer" class="mt-4"></div>
-    </div>
-    <div id="shakePopup" class="shake-popup hidden">
-        <div class="popup-content">
-            <img src="20241023_142802.png" alt="App Logo" class="app-logo" />
-            <p class="description">This is your app description.</p>
-            <p class="developer">Developed by Your Name</p>
-            <button id="closePopup" class="close-button">Close</button>
+        <div id="shakePopup" class="shake-popup hidden">
+            <div class="popup-content">
+                <img src="20241023_142802.png" alt="App Logo" class="app-logo" />
+                <p class="description">This is your app description.</p>
+                <p class="developer">Developed by Your Name</p>
+                <button id="closePopup" class="close-button">Close</button>
+            </div>
         </div>
     </div>
+
 </body>
 <script>
-    let lastX, lastY, lastZ;
-    let lastTime;
-    const shakeThreshold = 6; // Adjust sensitivity
+    let lastX = 0, lastY = 0, lastZ = 0;
+    let lastTime = 0;
+    const shakeThreshold = 5; // Adjust sensitivity
     const shakePopup = document.getElementById('shakePopup');
     const closePopupButton = document.getElementById('closePopup');
 
     window.addEventListener('devicemotion', (event) => {
         const acceleration = event.accelerationIncludingGravity;
-        const currentTime = new Date().getTime();
 
+        const currentTime = new Date().getTime();
         if (lastTime && (currentTime - lastTime) > 100) {
             const deltaX = acceleration.x - lastX;
             const deltaY = acceleration.y - lastY;
@@ -220,10 +221,11 @@
                 shakePopup.style.display = 'flex'; // Show the popup
                 setTimeout(() => {
                     shakePopup.style.display = 'none'; // Auto-hide after 3 seconds
-                }, 3000);
+                }, 6000);
             }
         }
 
+        // Update last known values
         lastX = acceleration.x;
         lastY = acceleration.y;
         lastZ = acceleration.z;
