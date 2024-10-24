@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         .heart-list {
             list-style-type: none;
@@ -113,7 +115,7 @@
             text-decoration: none; /* Remove underline */
             margin-left: 310px;
             width: 35px;
-            margin-top: -8px;
+            margin-top: 70px;
 
             
         }
@@ -141,6 +143,9 @@
             <a id="homeButton" href="index.html" class="absolute left-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-600">
              <img src="home1.png" > 
             </a>
+            <button id="micButton" class="absolute left-40 top-1/2 transform -translate-y-1/2 text-yellow-300 hover:text-green-600">
+                <i class="fas fa-microphone fa-lg" style="width: 350px;margin-bottom: 25px;"></i>
+            </button>
             <div id="autocomplete-list" class="autocomplete-list"></div>
         </div>
         <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px;">Search</button>
@@ -148,10 +153,12 @@
     </div>
 </body>
 
-    
+        
     <script>
         const dishInput = document.getElementById('dishInput');
         const autocompleteList = document.getElementById('autocomplete-list');
+        const micButton = document.getElementById('micButton');
+
         const dishes = [
             { name: 'Sambar', type: 'veg' },
             { name: 'Mutton Biryani', type: 'non-veg' },
@@ -183,10 +190,25 @@
             
         ];
 
-        dishInput.addEventListener('focus', () => {
-            autocompleteList.innerHTML = '';
-            autocompleteList.style.display = 'flex';
-            dishes.forEach(dish => {
+   // Speech Recognition Setup
+   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    micButton.addEventListener('click', () => {
+        recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        dishInput.value = transcript;
+        triggerAutocomplete(transcript);
+    };
+
+    function triggerAutocomplete(query) {
+        const filteredDishes = dishes.filter(dish => dish.name.toLowerCase().includes(query.toLowerCase()));
+        autocompleteList.innerHTML = '';
+        if (filteredDishes.length) {
+            filteredDishes.forEach(dish => {
                 const item = document.createElement('div');
                 item.textContent = dish.name;
                 item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
@@ -196,37 +218,40 @@
                 });
                 autocompleteList.appendChild(item);
             });
-        });
+            autocompleteList.style.display = 'flex';
+        } else {
+            autocompleteList.style.display = 'none';
+        }
+    }
 
-        document.addEventListener('click', (event) => {
-            if (!dishInput.contains(event.target) && !autocompleteList.contains(event.target)) {
-                autocompleteList.style.display = 'none';
-            }
-        });
+    dishInput.addEventListener('input', () => {
+        triggerAutocomplete(dishInput.value);
+    });
 
-        dishInput.addEventListener('input', () => {
-            const query = dishInput.value.toLowerCase();
-            const filteredDishes = dishes.filter(dish => dish.name.toLowerCase().includes(query));
-            autocompleteList.innerHTML = '';
-            if (filteredDishes.length) {
-                filteredDishes.forEach(dish => {
-                    const item = document.createElement('div');
-                    item.textContent = dish.name;
-                    item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
-                    item.addEventListener('click', () => {
-                        dishInput.value = dish.name;
-                        autocompleteList.style.display = 'none';
-                    });
-                    autocompleteList.appendChild(item);
-                });
-                autocompleteList.style.display = 'flex';
-            } else {
+    dishInput.addEventListener('focus', () => {
+        autocompleteList.innerHTML = '';
+        autocompleteList.style.display = 'flex';
+        dishes.forEach(dish => {
+            const item = document.createElement('div');
+            item.textContent = dish.name;
+            item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
+            item.addEventListener('click', () => {
+                dishInput.value = dish.name;
                 autocompleteList.style.display = 'none';
-            }
+            });
+            autocompleteList.appendChild(item);
         });
-        const homeButton = document.getElementById('homeButton');
-        homeButton.style.display = 'none'; // Hide by default
-    </script>
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!dishInput.contains(event.target) && !autocompleteList.contains(event.target)) {
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+    const homeButton = document.getElementById('homeButton');
+    homeButton.style.display = 'none'; // Hide by default
+</script>
 
 
     <script>
