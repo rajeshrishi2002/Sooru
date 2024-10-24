@@ -1219,10 +1219,13 @@
         </div>
     `;
 
-    document.getElementById('orderZomatoButton').addEventListener('click', function() {
-    const dishName = encodeURIComponent(document.getElementById('dishInput').value.trim());
-    // Open Zomato app with the specific dish search
-    window.open(`zomato://search?q=${dishName}`, '_blank');
+    if (dishName) {
+        // Attempt to open the Zomato app with the search query
+        const appLink = `zomato://search?q=${dishName}`;
+        window.open(appLink, '_blank');
+    } else {
+        alert('Please enter a dish name.');
+    }
 });
 });
                                 } else {
