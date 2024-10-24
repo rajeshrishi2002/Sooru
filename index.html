@@ -201,39 +201,38 @@
 </body>
 <script>
     let lastX, lastY, lastZ;
-let lastTime;
-const shakeThreshold = 15; // Adjust this value based on sensitivity
-const shakePopup = document.getElementById('shakePopup');
-const closePopupButton = document.getElementById('closePopup');
+    let lastTime;
+    const shakeThreshold = 15; // Adjust sensitivity
+    const shakePopup = document.getElementById('shakePopup');
+    const closePopupButton = document.getElementById('closePopup');
 
-window.addEventListener('devicemotion', (event) => {
-    const acceleration = event.accelerationIncludingGravity;
-    const currentTime = new Date().getTime();
+    window.addEventListener('devicemotion', (event) => {
+        const acceleration = event.accelerationIncludingGravity;
+        const currentTime = new Date().getTime();
 
-    if (lastTime && (currentTime - lastTime) > 100) {
-        const deltaX = acceleration.x - lastX;
-        const deltaY = acceleration.y - lastY;
-        const deltaZ = acceleration.z - lastZ;
-        const shakeMagnitude = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+        if (lastTime && (currentTime - lastTime) > 100) {
+            const deltaX = acceleration.x - lastX;
+            const deltaY = acceleration.y - lastY;
+            const deltaZ = acceleration.z - lastZ;
+            const shakeMagnitude = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-        if (shakeMagnitude > shakeThreshold) {
-            shakePopup.classList.remove('hidden');
-            setTimeout(() => {
-                shakePopup.classList.add('hidden');
-            }, 3000); // Auto-hide after 3 seconds
+            if (shakeMagnitude > shakeThreshold) {
+                shakePopup.style.display = 'flex'; // Show the popup
+                setTimeout(() => {
+                    shakePopup.style.display = 'none'; // Auto-hide after 3 seconds
+                }, 3000);
+            }
         }
-    }
 
-    lastX = acceleration.x;
-    lastY = acceleration.y;
-    lastZ = acceleration.z;
-    lastTime = currentTime;
-});
+        lastX = acceleration.x;
+        lastY = acceleration.y;
+        lastZ = acceleration.z;
+        lastTime = currentTime;
+    });
 
-// Close the popup when the button is clicked
-closePopupButton.addEventListener('click', () => {
-    shakePopup.classList.add('hidden');
-});
+    closePopupButton.addEventListener('click', () => {
+        shakePopup.style.display = 'none'; // Close the popup
+    });
 </script>
         
     <script>
