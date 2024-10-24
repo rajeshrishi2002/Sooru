@@ -149,7 +149,9 @@
             <div id="autocomplete-list" class="autocomplete-list"></div>
         </div>
         <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px;">Search</button>
+        
         <div id="recipeContainer" class="mt-4"></div>
+        
     </div>
 </body>
 
@@ -1218,6 +1220,9 @@
             <button id="orderZomatoButton" class="gradient-button text-lg font-semibold  text-center py-2" style="width:346px;">Order from Zomato</button>
         </div>
     `;
+
+    document.getElementById('orderZomatoButton').addEventListener('click', function() {
+    const dishName = encodeURIComponent(document.getElementById('dishInput').value.trim());
 
     if (dishName) {
         // Attempt to open the Zomato app with the search query
