@@ -1195,10 +1195,10 @@
     `;
 
     document.getElementById('orderZomatoButton').addEventListener('click', function() {
-        const dishUrl = encodeURIComponent(dishName);
-        // Open Zomato app with the specific dish search
-        window.open(`zomato://search?query=${dishUrl}`, '_blank');
-    });
+    const dishName = encodeURIComponent(document.getElementById('dishInput').value.trim());
+    // Open Zomato app with the specific dish search
+    window.open(`zomato://search?q=${dishName}`, '_blank');
+});
 });
                                 } else {
                                     recipeContainer.innerHTML = '<p class="text-red-500">Murayidu kidaikkavillai.</p>';
