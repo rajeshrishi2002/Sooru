@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .heart-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .heart-list li::before {
+            content: '♡';
+            color: #ffee00; /* Yellow color */
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);  
+            margin-right: 8px;
+        }
+        .heart-list-item {
+            position: relative;
+            padding-left: 25px;
+        }
+        .heart-list-item::before {
+            content: '♡';
+            color: #fff200; /* Change color if needed */
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2rem; /* Adjust size as needed */
+        }
+        .time {
+            color: #ffdd00; /* White color for time */
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);  
+        }
+        .background-image {
+            background-image: url('1.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .recipe-container {
+            max-height: 700px;
+            width: 350px; 
+            margin-left: 18px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 1rem;
+            border-radius: 0.5rem; /* Optional: Add rounded corners */
+            background-color: rgba(0, 0, 0, 0.475); /* Optional: Add a semi-transparent background */
+        }
+        .gradient-button {
+            background: linear-gradient(135deg, #ffc400, #ffe600, #ffc400);
+            color: rgb(0, 85, 0);
+            padding: 12px 16px;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow:  0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 217, 0, 0.434);
+
+        }
+        .glowing-text {
+            color: #FFD700; /* Yellow color */
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+         .input-field {
+             transition: margin-bottom 0.2s ease; /* Smooth transition */
+             position: relative;
+             z-index: 10; /* Ensure it's above other elements */
+}
+
+
+        .autocomplete-list {
+            display: flex;
+            overflow-x: auto;
+
+            border-radius: 5px;
+            position: absolute;
+            background: linear-gradient(135deg, #ffc400, #ffe600, #ffc400);
+            z-index: 1;
+            padding: 10px 0;
+            width: calc(100% - 20px);
+            width: 340px;
+          
+            transition: all 0.3s ease;
+            top: 77px; /* Adjust based on input height */
+            left: 23px; /* Align with the input */
+            max-height: 50px; /* Adjust height as needed */
+            display: none; /* Start hidden */
+        }
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+  
+        .veg {
+            color: #007e0f; /* Green for veg dishes */
+        }
+        .non-veg {
+            color: #c90700; /* Red for non-veg dishes */
+        }
+        input {
+            padding-right: 40px; /* Space for scroll */
+        }
+        .floating-image {
+    animation: float 3s ease-in-out infinite;
+
+        }
+@keyframes float {
+    0% { transform: translatey(0); }
+    50% { transform: translatey(-10px); }
+    100% { transform: translatey(0); }
+}
+        #homeButton {
+            text-decoration: none; /* Remove underline */
+            margin-left: 310px;
+            width: 35px;
+            margin-top: 70px;
+
+            
+        }
+        .dish-info {
+    animation: glow 1.5s infinite alternate;
+    color: #FFD700; /* Yellow color */
+}
+
+@keyframes glow {
+    0% {
+            text-shadow: 0 0 2px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    100% {
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+}
+.glow-effect {
+    box-shadow: 0 0 10px white, 0 0 20px white;
+    transition: box-shadow 0.2s ease;
+}
+
+.glow-effect:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 15px white, 0 0 25px white; /* Brighter on focus */
+}
+.add-button {
+    background: linear-gradient(135deg, #ffc400, #ffe600, #ffc400);  
+    color: rgb(255, 255, 255); /* White text */
+    margin-right: 15px;
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Padding for better spacing */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition effects */
+    font-size: 16px; /* Font size */
+}
+
+.add-button:hover {
+    background-color: #006b0e; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+.ingredient-input {
+    width: 347px;
+    padding: 11px;
+    border-radius: 6px;
+    margin-left: 20px;
+    background-color: white;
+    color: rgb(236, 161, 0);
+    transition: box-shadow 0.3s ease;
+    border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.434);
+}
+
+.ingredient-input:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 15px white, 0 0 25px white; /* Brighter glow on focus */
+}
+
+        
+    </style>
+</head>
+<body class="background-image flex items-center justify-center min-h-screen">
+    <div class="w-96">
+        <div class="relative mb-4">
+            <input id="dishInput" type="text" placeholder="Enter Your Dish Name Here...." class="w-full p-3 focus:outline-none mb-4" 
+                style="width: 347px; margin-left: 20px; border: none; color: #00820f; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.434); padding-left: 50px;">
+
+            <a id="homeButton" href="index.html" class="absolute left-2 top-1/2 transform -translate-y-1/2 text-yellow-400 hover:text-yellow-600">
+                <img src="home1.png" alt="Home" style="width: 25px; height: 25px;"> 
+            </a>
+
+            <a id="gameButton" class="absolute left-10 top-1/2 transform -translate-y-1/2 text-yellow-300 hover:text-yellow-600" onclick="redirectToGame()">
+                <i class="fas fa-gamepad" style="font-size: 25px; margin-left: -10px; margin-bottom: 13px;"></i>
+            </a>
+
+            <button id="micButton" class="absolute left-40 top-1/2 transform -translate-y-1/2 text-yellow-300 hover:text-green-600 flex items-center justify-center">
+                <i class="fas fa-microphone fa-lg" style="margin-left: 178px; margin-bottom: 15px;"></i>
+            </button>
+
+            <div id="autocomplete-list" class="autocomplete-list"></div>
+        </div>
+        <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px; color:#00820f;">Search</button>
+        <button id="uploadIngredientsButton" class="text-lg font-semibold gradient-button w-full" style="margin-top: 17px; width: 347px; margin-left: 20px; color:#00820f;">Ingredients I Have</button>
+
+        <div id="recipeContainer" class="mt-4"></div>
+        <div id="ingredientsContainer" class="mt-4"></div>
+    </div>
+
+    <script>
+        function redirectToGame() {
+            // Change color to green
+            const gameButton = document.getElementById("gameButton");
+            gameButton.style.color = "green";
+
+            // Redirect to game.html
+            setTimeout(() => {
+                window.location.href = "game.html";
+            }, 300); // Delay for a brief moment to show the color change
+        }
+    </script>
+</body>
+<script>
+    
+ document.addEventListener("DOMContentLoaded", () => {
+            const uploadIngredientsButton = document.getElementById('uploadIngredientsButton');
+            const searchButton = document.querySelector('.searchButton');
+            const homeButton = document.getElementById('homeButton');
+            const ingredientsContainer = document.getElementById('ingredientsContainer');
+            const recipeContainer = document.getElementById('recipeContainer');
+
+            // Show Upload Ingredients button and ingredient fields on page load
+            uploadIngredientsButton.style.display = 'block';
+            ingredientsContainer.style.display = 'block'; // Show ingredient fields initially
+
+            // Hide Upload Ingredients button and ingredient fields when Search button is clicked
+            searchButton.addEventListener('click', () => {
+                // Process the search (mockup, replace with actual search logic)
+                loadRecipes(); // Function to load recipes based on the search
+                
+                // After processing the search results
+                uploadIngredientsButton.style.display = 'none';
+                ingredientsContainer.style.display = 'none'; // Hide ingredient fields
+            });
+
+            // Show Upload Ingredients button and ingredient fields when Home button is clicked
+            homeButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                uploadIngredientsButton.style.display = 'block';
+                ingredientsContainer.style.display = 'block'; // Show ingredient fields
+                // Navigate to the home page
+                window.location.href = homeButton.href; // Navigate to home page
+            });
+
+            // Mock function to load recipes (replace this with actual logic)
+            function loadRecipes() {
+                // Example of loading recipes
+                recipeContainer.innerHTML = "<p>Recipes Loaded!</p>"; // Replace with actual recipe rendering logic
+            }
+        });
+</script>
+<script>
+const uploadIngredientsButton = document.getElementById('uploadIngredientsButton');
+const ingredientsContainer = document.getElementById('ingredientsContainer');
+let ingredientCount = 0; // Start with 0 ingredient fields
+
+// Function to create ingredient input field
+function createIngredientInput() {
+    // Create the ingredient input field
+    const ingredientInput = document.createElement('div');
+    ingredientInput.classList.add('relative', 'w-full', 'mb-2');
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = `Ingredient ${ingredientCount + 1}`; // Set dynamic placeholder
+    input.classList.add('ingredient-input'); // Add the new ingredient-input class
+
+    ingredientInput.appendChild(input);
+    ingredientsContainer.appendChild(ingredientInput);
+
+    // Increment the count after creating the input
+    ingredientCount++;
+
+    // If it's less than 7, add the "+" button to the last input field
+    if (ingredientCount < 7) {
+        const addButton = document.createElement('button');
+        addButton.innerText = '+';
+        addButton.classList.add('add-button', 'absolute', 'right-2', 'top-1/2', 'transform', '-translate-y-1/2'); // Added add-button class
+
+        // Add event listener to create a new ingredient input when "+" is clicked
+        addButton.onclick = () => {
+            createIngredientInput(); // Create a new input field
+            addButton.remove(); // Remove the "+" button from the current field
+        };
+
+        ingredientInput.appendChild(addButton); // Append the "+" button to the current input field
+    }
+
+    // Add event listener to the ingredient input for autocomplete
+    input.addEventListener('input', () => {
+        triggerIngredientAutocomplete(input.value); // Call the autocomplete function for this input
+    });
+}
+// Event listener for the Upload Ingredients button
+uploadIngredientsButton.addEventListener('click', () => {
+    if (ingredientCount === 0) {
+        createIngredientInput(); // Create the first ingredient input with "+" button
+    }
+});
+
+
+
+// Function to trigger autocomplete based on ingredient input
+function triggerIngredientAutocomplete(query) {
+    const enteredIngredients = Array.from(ingredientsContainer.getElementsByTagName('input'))
+        .map(input => input.value.trim().toLowerCase());
+
+    const filteredDishes = dishes.filter(dish => 
+        enteredIngredients.every(ingredient => dish.ingredients && dish.ingredients.some(ing => ing.toLowerCase().includes(ingredient)))
+    );
+
+    autocompleteList.innerHTML = '';
+    if (filteredDishes.length) {
+        filteredDishes.forEach(dish => {
+            const item = document.createElement('div');
+            item.textContent = dish.name;
+            item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
+            item.addEventListener('click', () => {
+                dishInput.value = dish.name;
+                autocompleteList.style.display = 'none';
+            });
+            autocompleteList.appendChild(item);
+        });
+        autocompleteList.style.display = 'flex';
+    } else {
+        autocompleteList.style.display = 'none';
+    }
+}
+
+// Event listener for the Upload Ingredients button
+uploadIngredientsButton.addEventListener('click', () => {
+    if (ingredientCount === 0) {
+        createIngredientInput(); // Create the first ingredient input with "+" button
+    }
+});
+
+</script>
+
+        
+    <script>
+        const dishInput = document.getElementById('dishInput');
+        const autocompleteList = document.getElementById('autocomplete-list');
+        const micButton = document.getElementById('micButton');
+
+        const dishes = [
+            { name: 'Sambar', type: 'veg',ingredients: ["Toor dal", "Tamarind", "mixed Vegetables", "Sambar powder", "Salt", "Oil"] },
+            { name: 'Mutton Biryani', type: 'non-veg', ingredients: ["500g Mutton (cut into pieces)", "2 cups Basmati rice", "2 Onions (sliced)", "2 Tomatoes (chopped)", "1 tbsp Ginger-Garlic paste", "2 tbsp Biryani masala", "3 cups Water", "Salt to taste", "4 tbsp Oil", "Fresh mint and coriander leaves (for garnish)"]},
+            { name: 'Rasam', type: 'veg',ingredients: ["1 lemon-sized Tamarind", "2 Tomatoes", "2 tbsp Rasam powder", "Salt to taste", "1 tbsp Oil", "1 tsp Mustard seeds", "1 tsp Cumin seeds", "1/4 tsp Asafoetida", "2 dried Red chilies", "10 Curry leaves", "2 cups Water", "1 tbsp chopped Coriander leaves"]},
+            { name: 'Tandoori Chicken', type: 'non-veg',ingredients: ["500g Chicken (cut into pieces)", "1 cup Yogurt", "2 tbsp Tandoori masala", "1 tbsp Lemon juice", "Salt to taste", "2 tbsp Oil", "Fresh coriander leaves (for garnish)"]},
+            { name: 'Ven Pongal', type: 'veg',ingredients: ["1 cup Rice", "1/4 cup Moong dal", "1 tsp Black pepper", "1 tsp Cumin seeds", "2 tbsp Ghee", "Salt to taste", "10 Cashew nuts", "10 Curry leaves"]},
+            { name: 'Idli', type: 'veg',ingredients: ["2 cups Idli rice", "1 cup Urad dal", "Salt to taste", "Water (as needed)"] },
+            { name: 'Chicken Curry', type: 'non-veg', ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Tomatoes (chopped)", "2 tbsp Ginger-Garlic paste", "2 tbsp Curry powder", "Salt to taste", "3 tbsp Oil", "1 tsp Mustard seeds", "1 tsp Cumin seeds", "2 Green chilies (slit)", "Fresh coriander leaves (for garnish)"] },
+            { name: 'Curd Rice', type: 'veg',ingredients: ["1 cup Rice", "1 cup Yogurt (curd)", "1/2 tsp Mustard seeds", "1/2 tsp Cumin seeds", "2 Green chilies (chopped)", "10 Curry leaves", "Salt to taste", "2 tbsp Oil"]},
+            { name: 'Avial', type: 'veg',ingredients: ["2 cups Mixed vegetables (carrot, beans, drumsticks, etc.)", "1 cup Curd (yogurt)", "1/2 cup Grated coconut", "2 tsp Cumin seeds", "1 tbsp Coconut oil", "Salt to taste"]},
+            { name: 'Shrimp Scampi', type: 'non-veg',ingredients: ["500g Shrimp (peeled and deveined)", "4 tbsp Butter", "4 cloves Garlic (minced)", "1/4 cup White wine", "1 tbsp Lemon juice", "Salt and pepper to taste", "Fresh parsley (for garnish)", "Cooked pasta (for serving)"]},
+            { name: 'Thengai Burfi', type: 'veg',ingredients: ["2 cups Grated coconut", "1 cup Jaggery (grated)", "1/4 cup Milk", "1/4 tsp Cardamom powder", "1 tbsp Ghee", "Chopped nuts (cashews, almonds) for garnish"] },
+            { name: 'Murukku', type: 'veg',ingredients: ["2 cups Rice flour", "1/2 cup Urad dal flour", "1 tbsp Sesame seeds", "1/2 tsp Ajwain", "Salt to taste", "Water (as needed)", "Oil (for frying)"] },
+            { name: 'Butter Chicken', type: 'non-veg',ingredients: ["500g Chicken (cubed)", "2 tbsp Butter", "1 Onion (chopped)", "2 Tomatoes (pureed)", "2 tbsp Ginger-Garlic paste", "1 tbsp Garam masala", "1/2 cup Cream", "Salt to taste"]},
+            { name: 'Kadai Paneer', type: 'veg',ingredients: ["200g Paneer (cubed)", "1 Capsicum (sliced)", "1 Onion (sliced)", "2 Tomatoes (pureed)", "1 tsp Ginger-garlic paste", "1 tbsp Kadai masala", "Salt to taste", "2 tbsp Oil", "Coriander leaves for garnish"] },
+            { name: 'Beef Stroganoff', type: 'non-veg',ingredients: ["500g Beef (sliced)", "1 Onion (chopped)", "200g Mushrooms (sliced)", "2 tbsp Flour", "1 cup Beef broth", "1/2 cup Sour cream", "2 tbsp Oil", "Salt and pepper to taste"]},
+            { name: 'Fish Fry', type: 'non-veg',ingredients: ["500g Fish fillets", "2 tbsp Lemon juice", "1 tbsp Red chili powder", "1 tsp Turmeric powder", "Salt to taste", "Oil for frying"]},
+            { name: 'Pudhina Rice', type: 'veg',ingredients: ["1 cup Basmati rice", "1/2 cup Mint leaves", "1 Onion (sliced)", "2 Green chilies", "1 tsp Ginger-garlic paste", "1 tsp Garam masala", "Salt to taste", "2 tbsp Oil", "2 cups Water"]},
+            { name: 'Prawn Masala', type: 'non-veg',ingredients: ["500g Prawns (peeled)", "2 Onions (sliced)", "2 Tomatoes (chopped)", "2 tbsp Ginger-Garlic paste", "2 tbsp Masala powder", "Salt to taste", "3 tbsp Oil", "Fresh coriander leaves (for garnish)"]},
+            { name: 'Lamb Kebab', type: 'non-veg',ingredients: ["500g Ground lamb", "1 Onion (finely chopped)", "2 tbsp Ginger-Garlic paste", "2 Green chilies (chopped)", "1 tbsp Garam masala", "Salt to taste", "Fresh coriander leaves (for garnish)"]},
+            { name: 'Masala Dosa', type: 'veg',ingredients: ["1 cup Dosa batter", "2 Potatoes (boiled and mashed)", "1 Onion (sliced)", "1 tsp Mustard seeds", "2 Green chilies", "Curry leaves", "Salt to taste", "Oil for cooking"]},
+            { name: 'Egg Curry', type: 'non-veg',ingredients: ["4 Boiled eggs", "2 Onions (chopped)", "2 Tomatoes (pureed)", "2 tbsp Ginger-Garlic paste", "2 tbsp Curry powder", "Salt to taste", "3 tbsp Oil", "Fresh coriander leaves (for garnish)"]},
+            { name: 'Vegetable Pulao', type: 'veg',ingredients: ["1 cup Basmati rice", "2 cups Mixed vegetables (peas, carrots, beans)", "1 Onion (sliced)", "2 Green chilies", "1 tsp Ginger-garlic paste", "1 tsp Pulao masala", "Salt to taste", "2 tbsp Oil", "2 cups Water"]},
+            { name: 'Chilli Chicken', type: 'non-veg',ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Green bell peppers (sliced)", "2 tbsp Ginger-Garlic paste", "2 tbsp Soy sauce", "1 tbsp Red chili powder", "Salt to taste", "3 tbsp Oil"]},
+            { name: 'Kootu', type: 'veg',ingredients: ["1 cup Toor dal", "2 cups Mixed vegetables (like pumpkin, ash gourd, etc.)", "1/2 cup Grated coconut", "1 tsp Cumin seeds", "1/2 tsp Mustard seeds", "1/4 tsp Turmeric powder", "Salt to taste", "2 tbsp Oil"]}
+       
+          
+        
+            
+        ];
+        function triggerAutocomplete(query) {
+        const enteredIngredients = query.split(',').map(ingredient => ingredient.trim().toLowerCase());
+        const filteredDishes = dishes.filter(dish => 
+            enteredIngredients.every(ingredient => dish.ingredients.some(ing => ing.includes(ingredient)))
+        );
+        function triggerAutocomplete(query) {
+    const enteredIngredients = query.split(',').map(ingredient => ingredient.trim().toLowerCase());
+    console.log(enteredIngredients); // Add this line to log the ingredients
+    const filteredDishes = dishes.filter(dish => 
+        enteredIngredients.every(ingredient => dish.ingredients.some(ing => ing.includes(ingredient)))
+    );
+
+    autocompleteList.innerHTML = '';
+    if (filteredDishes.length) {
+        // ...
+    } else {
+        autocompleteList.style.display = 'none';
+    }
+}
+        autocompleteList.innerHTML = '';
+        if (filteredDishes.length) {
+            filteredDishes.forEach(dish => {
+                const item = document.createElement('div');
+                item.textContent = dish.name;
+                item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
+                item.addEventListener('click', () => {
+                    dishInput.value = dish.name;
+                    autocompleteList.style.display = 'none';
+                });
+                autocompleteList.appendChild(item);
+            });
+            autocompleteList.style.display = 'flex';
+        } else {
+            autocompleteList.style.display = 'none';
+        }
+    }
+
+    dishInput.addEventListener('input', () => {
+        triggerAutocomplete(dishInput.value);
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!dishInput.contains(event.target) && !autocompleteList.contains(event.target)) {
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+
+   // Speech Recognition Setup
+   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    micButton.addEventListener('click', () => {
+        recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        dishInput.value = transcript;
+        triggerAutocomplete(transcript);
+    };
+
+    function triggerAutocomplete(query) {
+        const filteredDishes = dishes.filter(dish => dish.name.toLowerCase().includes(query.toLowerCase()));
+        autocompleteList.innerHTML = '';
+        if (filteredDishes.length) {
+            filteredDishes.forEach(dish => {
+                const item = document.createElement('div');
+                item.textContent = dish.name;
+                item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
+                item.addEventListener('click', () => {
+                    dishInput.value = dish.name;
+                    autocompleteList.style.display = 'none';
+                });
+                autocompleteList.appendChild(item);
+            });
+            autocompleteList.style.display = 'flex';
+        } else {
+            autocompleteList.style.display = 'none';
+        }
+    }
+
+    dishInput.addEventListener('input', () => {
+        triggerAutocomplete(dishInput.value);
+    });
+
+    dishInput.addEventListener('focus', () => {
+        autocompleteList.innerHTML = '';
+        autocompleteList.style.display = 'flex';
+        dishes.forEach(dish => {
+            const item = document.createElement('div');
+            item.textContent = dish.name;
+            item.classList.add('autocomplete-item', dish.type === 'veg' ? 'veg' : 'non-veg');
+            item.addEventListener('click', () => {
+                dishInput.value = dish.name;
+                autocompleteList.style.display = 'none';
+            });
+            autocompleteList.appendChild(item);
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!dishInput.contains(event.target) && !autocompleteList.contains(event.target)) {
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+    const homeButton = document.getElementById('homeButton');
+    homeButton.style.display = 'none'; // Hide by default
+</script>
+
+<script>
+    document.querySelectorAll('.input-field').forEach(input => {
+    input.addEventListener('focus', () => {
+        input.style.marginBottom = '200px'; // Adjust this value as needed
+        input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    input.addEventListener('blur', () => {
+        input.style.marginBottom = '0'; // Reset margin
+    });
+});
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const recipes = {
+            "Sambar": {
+                ingredients: ["1 cup Toor dal", "1 lemon-sized Tamarind", "2 cups mixed Vegetables (carrot, beans, potato, etc.)", "2 tbsp Sambar powder", "Salt to taste", "2 tbsp Oil", "1 tsp Mustard seeds", "1 tsp Cumin seeds", "1/4 tsp Asafoetida", "2 dried Red chilies", "10 Curry leaves"],
+                recipe: [
+                    { step: "Wash and cook toor dal in a pressure cooker with 3 cups of water until soft (about 15 minutes).", time: "15 minutes" },
+                    { step: "Soak tamarind in warm water for 10 minutes and extract the juice.", time: "10 minutes" },
+                    { step: "Chop the vegetables and cook them in a pot with 2 cups of water until tender (about 10 minutes).", time: "10 minutes" },
+                    { step: "Add the cooked dal, tamarind extract, sambar powder, and salt to the pot with vegetables. Mix well and let it simmer for 10 minutes.", time: "10 minutes" },
+                    { step: "In a small pan, heat oil and add mustard seeds, cumin seeds, asafoetida, dried red chilies, and curry leaves. Let them splutter.", time: "2 minutes" },
+                    { step: "Pour the tempering over the sambar and mix well. Let it simmer for another 5 minutes.", time: "5 minutes" },
+                    { step: "Serve hot with rice or idli.", time: "Ready" }
+                ],
+                image: "sambar.png", 
+                calories:  200,
+                totalTime: 50// Total time in minutes
+            },
+            
+            "Rasam": {
+                ingredients: ["1 lemon-sized Tamarind", "2 Tomatoes", "2 tbsp Rasam powder", "Salt to taste", "1 tbsp Oil", "1 tsp Mustard seeds", "1 tsp Cumin seeds", "1/4 tsp Asafoetida", "2 dried Red chilies", "10 Curry leaves", "2 cups Water", "1 tbsp chopped Coriander leaves"],
+                recipe: [
+                    { step: "Soak tamarind in warm water for 10 minutes and extract the juice.", time: "10 minutes" },
+                    { step: "Chop the tomatoes and add them to a pot with 2 cups of water. Bring to a boil.", time: "5 minutes" },
+                    { step: "Add tamarind extract, rasam powder, and salt to the pot. Let it simmer for 10 minutes.", time: "10 minutes" },
+                    { step: "In a small pan, heat oil and add mustard seeds, cumin seeds, asafoetida, dried red chilies, and curry leaves. Let them splutter.", time: "2 minutes" },
+                    { step: "Pour the tempering over the rasam and mix well. Let it simmer for another 5 minutes.", time: "5 minutes" },
+                    { step: "Garnish with chopped coriander leaves and serve hot.", time: "Ready" }
+                ],
+                image: "rasam.png",
+                calories:  80,
+                totalTime: 40// Total time in minutes 
+            },
+            "Ven Pongal": {
+                ingredients: ["1 cup Rice", "1/4 cup Moong dal", "1 tsp Black pepper", "1 tsp Cumin seeds", "2 tbsp Ghee", "Salt to taste", "10 Cashew nuts", "10 Curry leaves"],
+                recipe: [
+                    { step: "Dry roast the moong dal until golden.", time: "5 minutes" },
+                    { step: "Cook rice and moong dal together with water (3 cups) in a pressure cooker for about 3 whistles.", time: "15 minutes" },
+                    { step: "In a pan, heat ghee and add black pepper, cumin seeds, cashews, and curry leaves. Let them splutter.", time: "2 minutes" },
+                    { step: "Mix the tempering with the cooked rice and dal. Add salt to taste. Serve hot.", time: "Ready" }
+                ],
+                image: "venpongal.png",
+                calories:  300,
+                totalTime: 40// Total time in minutes 
+            },
+            "Kootu": {
+                ingredients: ["1 cup Toor dal", "2 cups Mixed vegetables (like pumpkin, ash gourd, etc.)", "1/2 cup Grated coconut", "1 tsp Cumin seeds", "1/2 tsp Mustard seeds", "1/4 tsp Turmeric powder", "Salt to taste", "2 tbsp Oil"],
+                recipe: [
+                    { step: "Cook the toor dal until soft.", time: "20 minutes" },
+                    { step: "Boil the mixed vegetables with turmeric and salt until tender.", time: "10 minutes" },
+                    { step: "Grind coconut and cumin seeds together.", time: "5 minutes" },
+                    { step: "Mix the cooked dal with vegetables and ground coconut. Temper with mustard seeds in hot oil.", time: "5 minutes" },
+                    { step: "Serve hot.", time: "Ready" }
+                ],
+                image: "kootu.png",
+                calories:  200,
+                totalTime: 40// Total time in minutes 
+            },
+            "Avial": {
+                ingredients: ["2 cups Mixed vegetables (carrot, beans, drumsticks, etc.)", "1 cup Curd (yogurt)", "1/2 cup Grated coconut", "2 tsp Cumin seeds", "1 tbsp Coconut oil", "Salt to taste"],
+                recipe: [
+                    { step: "Cook the mixed vegetables until tender.", time: "15 minutes" },
+                    { step: "Grind coconut and cumin seeds together.", time: "5 minutes" },
+                    { step: "Mix the cooked vegetables with the ground coconut and curd. Drizzle with coconut oil before serving.", time: "Ready" }
+                ],
+                image: "avial.png", 
+                calories:  240,
+                totalTime: 40
+            },
+            "Curd Rice": {
+                ingredients: ["1 cup Rice", "1 cup Yogurt (curd)", "1/2 tsp Mustard seeds", "1/2 tsp Cumin seeds", "2 Green chilies (chopped)", "10 Curry leaves", "Salt to taste", "2 tbsp Oil"],
+                recipe: [
+                    { step: "Cook rice and let it cool.", time: "20 minutes" },
+                    { step: "Mix the cooled rice with yogurt and salt.", time: "5 minutes" },
+                    { step: "In a pan, heat oil and add mustard seeds, cumin seeds, green chilies, and curry leaves. Let them splutter and pour over the rice.", time: "2 minutes" },
+                    { step: "Serve chilled.", time: "Ready" }
+                ],
+                image: "curd.png", 
+                calories:  250,
+                totalTime: 30
+            },
+            "Idli": {
+                ingredients: ["2 cups Idli rice", "1 cup Urad dal", "Salt to taste", "Water (as needed)"],
+                recipe: [
+                    { step: "Soak idli rice and urad dal separately for 6-8 hours.", time: "6-8 hours" },
+                    { step: "Grind them together to a smooth batter, adding water as needed.", time: "20 minutes" },
+                    { step: "Ferment the batter overnight.", time: "8 hours" },
+                    { step: "Pour the batter into idli molds and steam for about 10-15 minutes.", time: "15 minutes" },
+                    { step: "Serve with sambar and chutney.", time: "Ready" }
+                ],
+                image: "idli.png", 
+                calories:  150,
+                totalTime: 30// Total time in minutes
+            },
+
+            "Chicken Curry": {
+        ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Tomatoes (chopped)", "2 tbsp Ginger-Garlic paste", "2 tbsp Curry powder", "Salt to taste", "3 tbsp Oil", "1 tsp Mustard seeds", "1 tsp Cumin seeds", "2 Green chilies (slit)", "Fresh coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Heat oil in a pan and add mustard and cumin seeds. Let them splutter.", time: "2 minutes" },
+            { step: "Add sliced onions and green chilies. Sauté until golden brown.", time: "5 minutes" },
+            { step: "Stir in ginger-garlic paste and cook until raw smell disappears.", time: "2 minutes" },
+            { step: "Add tomatoes and curry powder; cook until tomatoes soften.", time: "5 minutes" },
+            { step: "Add chicken pieces and salt; stir well. Cover and cook for 20 minutes.", time: "20 minutes" },
+            { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+        ],
+        image: "chicken.png", 
+                calories:  350,
+                totalTime: 60
+    },
+
+    "Fish Fry": {
+        ingredients: ["500g Fish fillets", "2 tbsp Lemon juice", "1 tbsp Red chili powder", "1 tsp Turmeric powder", "Salt to taste", "Oil for frying"],
+        recipe: [
+            { step: "Marinate fish with lemon juice, chili powder, turmeric, and salt for 30 minutes.", time: "30 minutes" },
+            { step: "Heat oil in a pan.", time: "2 minutes" },
+            { step: "Fry the marinated fish until golden brown on both sides.", time: "5 minutes per side" },
+            { step: "Serve hot with lemon wedges.", time: "Ready" }
+        ],image: "fishfry.png", 
+                calories:  300,
+                totalTime: 30
+    },
+
+    "Mutton Biryani": {
+        ingredients: ["500g Mutton (cut into pieces)", "2 cups Basmati rice", "2 Onions (sliced)", "2 Tomatoes (chopped)", "1 tbsp Ginger-Garlic paste", "2 tbsp Biryani masala", "3 cups Water", "Salt to taste", "4 tbsp Oil", "Fresh mint and coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Heat oil in a large pot, add onions and fry until golden brown.", time: "5 minutes" },
+            { step: "Stir in ginger-garlic paste, tomatoes, and mutton. Cook for 10 minutes.", time: "10 minutes" },
+            { step: "Add biryani masala, salt, and water; bring to a boil.", time: "5 minutes" },
+            { step: "Add soaked rice; cover and cook on low heat until rice is done.", time: "20 minutes" },
+            { step: "Garnish with mint and coriander leaves before serving.", time: "Ready" }
+        ],
+        image: "mb.png", 
+                calories:  600,
+                totalTime: 100
+    },
+
+    "Shrimp Scampi": {
+        ingredients: ["500g Shrimp (peeled and deveined)", "4 tbsp Butter", "4 cloves Garlic (minced)", "1/4 cup White wine", "1 tbsp Lemon juice", "Salt and pepper to taste", "Fresh parsley (for garnish)", "Cooked pasta (for serving)"],
+        recipe: [
+            { step: "Melt butter in a skillet, add garlic and sauté for 1 minute.", time: "1 minute" },
+            { step: "Add shrimp, salt, and pepper; cook until shrimp turn pink.", time: "5 minutes" },
+            { step: "Pour in white wine and lemon juice; simmer for 2 minutes.", time: "2 minutes" },
+            { step: "Serve over pasta, garnished with parsley.", time: "Ready" }
+        ]
+    },
+
+    "Butter Chicken": {
+        ingredients: ["500g Chicken (cubed)", "2 tbsp Butter", "1 Onion (chopped)", "2 Tomatoes (pureed)", "2 tbsp Ginger-Garlic paste", "1 tbsp Garam masala", "1/2 cup Cream", "Salt to taste"],
+        recipe: [
+            { step: "Heat butter in a pan, add onions and sauté until soft.", time: "5 minutes" },
+            { step: "Stir in ginger-garlic paste, cook until fragrant.", time: "2 minutes" },
+            { step: "Add tomato puree, garam masala, and salt; cook for 10 minutes.", time: "10 minutes" },
+            { step: "Add chicken and simmer until cooked.", time: "15 minutes" },
+            { step: "Stir in cream and cook for an additional 5 minutes.", time: "5 minutes" },
+            { step: "Serve hot with naan or rice.", time: "Ready" }
+        ]
+    },
+
+    "Beef Stroganoff": {
+        ingredients: ["500g Beef (sliced)", "1 Onion (chopped)", "200g Mushrooms (sliced)", "2 tbsp Flour", "1 cup Beef broth", "1/2 cup Sour cream", "2 tbsp Oil", "Salt and pepper to taste"],
+        recipe: [
+            { step: "Heat oil in a pan, add onions and beef; cook until browned.", time: "5 minutes" },
+            { step: "Add mushrooms and cook until soft.", time: "5 minutes" },
+            { step: "Sprinkle flour, stir well, and add beef broth.", time: "2 minutes" },
+            { step: "Simmer until thickened, then stir in sour cream.", time: "5 minutes" },
+            { step: "Serve over egg noodles or rice.", time: "Ready" }
+        ]
+    },
+
+    "Egg Curry": {
+        ingredients: ["4 Boiled eggs", "2 Onions (chopped)", "2 Tomatoes (pureed)", "2 tbsp Ginger-Garlic paste", "2 tbsp Curry powder", "Salt to taste", "3 tbsp Oil", "Fresh coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Heat oil in a pan, add onions and sauté until golden brown.", time: "5 minutes" },
+            { step: "Stir in ginger-garlic paste and cook for 2 minutes.", time: "2 minutes" },
+            { step: "Add tomato puree, curry powder, and salt; cook for 10 minutes.", time: "10 minutes" },
+            { step: "Add halved boiled eggs and simmer for 5 minutes.", time: "5 minutes" },
+            { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+        ]
+    },
+
+    "Tandoori Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "1 cup Yogurt", "2 tbsp Tandoori masala", "1 tbsp Lemon juice", "Salt to taste", "2 tbsp Oil", "Fresh coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Marinate chicken in yogurt, tandoori masala, lemon juice, and salt for at least 1 hour.", time: "1 hour" },
+            { step: "Preheat oven to 200°C (392°F).", time: "10 minutes" },
+            { step: "Place marinated chicken on a baking tray and brush with oil.", time: "2 minutes" },
+            { step: "Bake for 30-35 minutes until cooked through.", time: "35 minutes" },
+            { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+        ],
+        image: "tc.png", 
+                calories:  300,
+                totalTime: 100
+    },
+
+    "Prawn Masala": {
+        ingredients: ["500g Prawns (peeled)", "2 Onions (sliced)", "2 Tomatoes (chopped)", "2 tbsp Ginger-Garlic paste", "2 tbsp Masala powder", "Salt to taste", "3 tbsp Oil", "Fresh coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Heat oil in a pan, add onions and sauté until golden brown.", time: "5 minutes" },
+            { step: "Stir in ginger-garlic paste, cook for 2 minutes.", time: "2 minutes" },
+            { step: "Add tomatoes and masala powder; cook until tomatoes soften.", time: "5 minutes" },
+            { step: "Add prawns and salt; cook until prawns turn pink.", time: "5 minutes" },
+            { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+        ]
+    },
+
+    "Lamb Kebab": {
+        ingredients: ["500g Ground lamb", "1 Onion (finely chopped)", "2 tbsp Ginger-Garlic paste", "2 Green chilies (chopped)", "1 tbsp Garam masala", "Salt to taste", "Fresh coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Mix ground lamb, onion, ginger-garlic paste, green chilies, garam masala, and salt in a bowl.", time: "5 minutes" },
+            { step: "Shape the mixture into kebabs.", time: "10 minutes" },
+            { step: "Grill or pan-fry kebabs until cooked through.", time: "15 minutes" },
+            { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+        ]
+    },
+
+    "Chilli Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Green bell peppers (sliced)", "2 tbsp Ginger-Garlic paste", "2 tbsp Soy sauce", "1 tbsp Red chili powder", "Salt to taste", "3 tbsp Oil"],
+        recipe: [
+            { step: "Heat oil in a pan, add onions and sauté until translucent.", time: "5 minutes" },
+            { step: "Add ginger-garlic paste, chicken, and cook until chicken is browned.", time: "10 minutes" },
+            { step: "Add bell peppers, soy sauce, red chili powder, and salt; cook for another 5 minutes.", time: "5 minutes" },
+            { step: "Serve hot with rice or noodles.", time: "Ready" }
+        ]
+    },
+    "Murukku": {
+    ingredients: ["2 cups Rice flour", "1/2 cup Urad dal flour", "1 tbsp Sesame seeds", "1/2 tsp Ajwain", "Salt to taste", "Water (as needed)", "Oil (for frying)"],
+    recipe: [
+        { step: "In a bowl, mix rice flour, urad dal flour, sesame seeds, ajwain, and salt.", time: "5 minutes" },
+        { step: "Add water gradually to form a smooth dough.", time: "5 minutes" },
+        { step: "Heat oil in a deep pan for frying.", time: "5 minutes" },
+        { step: "Shape the dough into spirals using a murukku maker or by hand.", time: "10 minutes" },
+        { step: "Fry the murukku in hot oil until golden brown and crisp.", time: "5-7 minutes" },
+        { step: "Drain on paper towels and let cool before serving.", time: "Ready" }
+    ]
+},
+
+"Thengai Burfi": {
+    ingredients: ["2 cups Grated coconut", "1 cup Jaggery (grated)", "1/4 cup Milk", "1/4 tsp Cardamom powder", "1 tbsp Ghee", "Chopped nuts (cashews, almonds) for garnish"],
+    recipe: [
+        { step: "In a pan, heat ghee and add grated coconut and jaggery.", time: "5 minutes" },
+        { step: "Stir until the jaggery melts and mixes well with coconut.", time: "5 minutes" },
+        { step: "Add milk and cardamom powder. Cook until the mixture thickens.", time: "10 minutes" },
+        { step: "Pour into a greased plate and spread evenly.", time: "2 minutes" },
+        { step: "Garnish with chopped nuts and let it cool before cutting into pieces.", time: "Ready" }
+    ]
+},
+
+"Kadai Paneer": {
+    ingredients: ["200g Paneer (cubed)", "1 Capsicum (sliced)", "1 Onion (sliced)", "2 Tomatoes (pureed)", "1 tsp Ginger-garlic paste", "1 tbsp Kadai masala", "Salt to taste", "2 tbsp Oil", "Coriander leaves for garnish"],
+    recipe: [
+        { step: "Heat oil in a pan and add sliced onions. Sauté until translucent.", time: "5 minutes" },
+        { step: "Add ginger-garlic paste and sauté for another minute.", time: "1 minute" },
+        { step: "Add tomato puree and cook until oil separates.", time: "5 minutes" },
+        { step: "Add capsicum, paneer, and kadai masala. Mix well and cook for 5 minutes.", time: "5 minutes" },
+        { step: "Garnish with coriander leaves and serve hot.", time: "Ready" }
+    ]
+},
+"Vegetable Pulao": {
+    ingredients: ["1 cup Basmati rice", "2 cups Mixed vegetables (peas, carrots, beans)", "1 Onion (sliced)", "2 Green chilies", "1 tsp Ginger-garlic paste", "1 tsp Pulao masala", "Salt to taste", "2 tbsp Oil", "2 cups Water"],
+    recipe: [
+        { step: "Wash and soak basmati rice for 30 minutes. Drain.", time: "30 minutes" },
+        { step: "Heat oil in a pan and add sliced onions. Sauté until golden.", time: "5 minutes" },
+        { step: "Add ginger-garlic paste and green chilies. Cook for a minute.", time: "1 minute" },
+        { step: "Add mixed vegetables and pulao masala. Sauté for a few minutes.", time: "5 minutes" },
+        { step: "Add soaked rice and water. Bring to a boil, then reduce heat and cover.", time: "15 minutes" },
+        { step: "Fluff with a fork and serve hot.", time: "Ready" }
+    ]
+},
+"Pudhina Rice": {
+    ingredients: ["1 cup Basmati rice", "1/2 cup Mint leaves", "1 Onion (sliced)", "2 Green chilies", "1 tsp Ginger-garlic paste", "1 tsp Garam masala", "Salt to taste", "2 tbsp Oil", "2 cups Water"],
+    recipe: [
+        { step: "Wash and soak basmati rice for 30 minutes. Drain.", time: "30 minutes" },
+        { step: "Heat oil in a pan and add sliced onions. Sauté until golden.", time: "5 minutes" },
+        { step: "Add ginger-garlic paste and green chilies. Cook for a minute.", time: "1 minute" },
+        { step: "Add mint leaves and sauté until wilted.", time: "2 minutes" },
+        { step: "Add soaked rice, garam masala, and water. Bring to a boil, then cover and simmer.", time: "15 minutes" },
+        { step: "Fluff and serve hot.", time: "Ready" }
+    ]
+},
+
+"Masala Dosa": {
+    ingredients: ["1 cup Dosa batter", "2 Potatoes (boiled and mashed)", "1 Onion (sliced)", "1 tsp Mustard seeds", "2 Green chilies", "Curry leaves", "Salt to taste", "Oil for cooking"],
+    recipe: [
+        { step: "Heat oil in a pan and add mustard seeds. Let them splutter.", time: "2 minutes" },
+        { step: "Add sliced onions, green chilies, and curry leaves. Sauté until onions are golden.", time: "5 minutes" },
+        { step: "Mix in mashed potatoes and salt. Cook for a few minutes.", time: "5 minutes" },
+        { step: "Spread dosa batter on a hot tawa and place some potato filling on top.", time: "2 minutes" },
+        { step: "Fold and cook until crispy. Serve hot with chutney.", time: "Ready" }
+    ]
+}
+        };
+        
+        
+        const translatedRecipes = {
+            "Sambar": {
+                ingredients: ["1 கப் துவரம் பருப்பு", "1 எலுமிச்சை அளவிலான புளி", "2 கப் கலவையான காய்கறிகள் (கேரட், பீன்ஸ், உருளைக்கிழங்கு, முதலியவை)", "2 டேபிள்ஸ்பூன் சாம்பார் பொடி", "உப்பு தேவையான அளவு", "2 டேபிள்ஸ்பூன் எண்ணெய்", "1 டீஸ்பூன் கடுகு", "1 டீஸ்பூன் சீரகம்", "1/4 டீஸ்பூன் பெருங்காயம்", "2 உலர்ந்த சிவப்பு மிளகாய்", "10 கருவேப்பிலை"],
+                recipe: [
+                    { step: "துவரம் பருப்பை கழுவி, 3 கப் தண்ணீரில் நன்கு வேகவைக்கவும் (சுமார் 15 நிமிடங்கள்).", time: "15 நிமிடங்கள்" },
+                    { step: "புளியை வெந்நீரில் 10 நிமிடங்கள் ஊறவைத்து, புளி சாறு எடுக்கவும்.", time: "10 நிமிடங்கள்" },
+                    { step: "காய்கறிகளை நறுக்கி, 2 கப் தண்ணீரில் நன்கு வேகவைக்கவும் (சுமார் 10 நிமிடங்கள்).", time: "10 நிமிடங்கள்" },
+                    { step: "வேக வைத்த பருப்பு, புளி சாறு, சாம்பார் பொடி, மற்றும் உப்பு ஆகியவற்றை காய்கறிகளுடன் சேர்த்து நன்கு கிளறவும். 10 நிமிடங்கள் நன்கு சுண்டவைக்கவும்.", time: "10 நிமிடங்கள்" },
+                    { step: "ஒரு சிறிய வாணலியில் எண்ணெய் சூடாக்கி, கடுகு, சீரகம், பெருங்காயம், உலர்ந்த சிவப்பு மிளகாய் மற்றும் கருவேப்பிலை சேர்க்கவும். துளித்தவுடன் எடுக்கவும்.", time: "2 நிமிடங்கள்" },
+                    { step: "தலையும் சேர்க்கவும், மற்றும் பிறகு 5 நிமிடங்கள் காய்வேகம் செய்யவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "அரைக்கு அல்லது இட்லிக்கு காய் அல்லது வெந்தயில் வெங்காயம் அளிக்கவும்.", time: "தயார்" }
+                ], image: "sambar.png", 
+                calories:  200,
+                totalTime: 50
+            },
+            "Rasam": {
+                ingredients: ["1 எலுமிச்சை அளவிலான புளி", "2 தக்காளிகள்", "2 டேபிள்ஸ்பூன் ரசம் பொடி", "உப்பு தேவையான அளவு", "1 டேபிள்ஸ்பூன் எண்ணெய்", "1 டீஸ்பூன் கடுகு", "1 டீஸ்பூன் சீரகம்", "1/4 டீஸ்பூன் பெருங்காயம்", "2 உலர்ந்த சிவப்பு மிளகாய்", "10 கருவேப்பிலை", "2 கப் தண்ணீர்", "1 டேபிள்ஸ்பூன் நறுக்கிய கொத்தமல்லி இலைகள்"],
+                recipe: [
+                    { step: "புளியை வெந்நீரில் 10 நிமிடங்கள் ஊறவைத்து, புளி சாறு எடுக்கவும்.", time: "10 நிமிடங்கள்" },
+                    { step: "தக்காளிகளை நறுக்கி, 2 கப் தண்ணீருடன் ஒரு பாத்திரத்தில் சேர்க்கவும். கொதிக்கவிடவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "புளி சாறு, ரசம் பொடி மற்றும் உப்பு சேர்க்கவும். 10 நிமிடங்கள் நன்கு சுண்டவைக்கவும்.", time: "10 நிமிடங்கள்" },
+                    { step: "ஒரு சிறிய வாணலியில் எண்ணெய் சூடாக்கி, கடுகு, சீரகம், பெருங்காயம், உலர்ந்த சிவப்பு மிளகாய் மற்றும் கருவேப்பிலை சேர்க்கவும். துளித்தவுடன் எடுக்கவும்.", time: "2 நிமிடங்கள்" },
+                    { step: "தலையும் சேர்க்கவும், மற்றும் பிறகு 5 நிமிடங்கள் காய்வேகம் செய்யவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "நறுக்கிய கொத்தமல்லி இலைகள் மூலம் அலங்கரிக்கவும் மற்றும் சூடாக serve செய்யவும்.", time: "தயார்" }
+                ],                    image: "rasam.png",
+                calories:  80,
+                totalTime: 40// Total time in minutes 
+            },
+            "Ven Pongal": {
+                ingredients: ["1 கப் அரிசி", "1/4 கப் பாசி பருப்பு", "1 tsp மிளகு", "1 tsp புதினா", "2 tbsp நெய்", "உப்பு", "10 முந்திரிகள்", "10 கறிவேப்பிலைகள்"],
+                recipe: [
+                    { step: "பாசி பருப்பை வறுத்து 5 நிமிடங்கள் சமைக்கவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "அரிசி மற்றும் பருப்பை 15 நிமிடங்கள் அடுப்பில் சமைக்கவும்.", time: "15 நிமிடங்கள்" },
+                    { step: "நெய்யில் மிளகு, புதினா, முந்திரிகள் மற்றும் கறிவேப்பிலைகளை சேர்க்கவும்.", time: "2 நிமிடங்கள்" },
+                    { step: "கெட்டியாக சமைக்கவும்.", time: "சேர்ந்து!" }
+                ],
+                calories:  300,
+                totalTime: 40// Total time in minutes 
+            },
+            "Kootu": {
+                ingredients: ["1 கப் தூர் பருப்பு", "2 கப் கலவையான காய்கறிகள்", "1/2 கப் தேங்காய்", "2 tsp புதினா", "1/2 tsp கடுகு", "1/4 tsp மஞ்சள் தூள்", "உப்பு", "2 tbsp எண்ணெய்"],
+                recipe: [
+                    { step: "தூர் பருப்பை சமைக்கவும்.", time: "20 நிமிடங்கள்" },
+                    { step: "காய்கறிகளை 10 நிமிடங்கள் வெந்ததும், அதில் சேர்க்கவும்.", time: "10 நிமிடங்கள்" },
+                    { step: "தேங்காயை மற்றும் புதினாவை நறுக்கவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "அதை சேர்த்து பருகவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "சேர் நன்றாக.", time: "சேர்ந்து!" }
+                ],image: "kootu.png",
+                calories:  200,
+                totalTime: 40// Total time in minutes 
+            },
+            "Avial": {
+                ingredients: ["2 கப் கலவையான காய்கறிகள்", "1 கப் தயிர்", "1/2 கப் தேங்காய்", "2 tsp புதினா", "1 tbsp தேங்காய் எண்ணெய்", "உப்பு"],
+                recipe: [
+                    { step: "காய்கறிகளை 15 நிமிடங்கள் வெந்ததும், அதில் சேர்க்கவும்.", time: "15 நிமிடங்கள்" },
+                    { step: "தேங்காய் மற்றும் புதினாவை நறுக்கவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "அதை கலந்துபூர்த்தி செய்யவும்.", time: "சேர்ந்து!" }
+                ],
+                image: "avial.png", 
+                calories:  240,
+                totalTime: 40
+            },
+            "Curd Rice": {
+                ingredients: ["1 கப் அரிசி", "1 கப் தயிர்", "1/2 tsp கடுகு", "1/2 tsp புதினா", "2 பச்சை மிளகாய்", "10 கறிவேப்பிலைகள்", "உப்பு", "2 tbsp எண்ணெய்"],
+                recipe: [
+                    { step: "அரிசியை 20 நிமிடங்கள் வெந்ததும், அதில் சேர்க்கவும்.", time: "20 நிமிடங்கள்" },
+                    { step: "தயிரில் சேர்க்கவும்.", time: "5 நிமிடங்கள்" },
+                    { step: "எண்ணெயில் கடுகு, புதினா, மிளகாய் மற்றும் கறிவேப்பிலைகளை சேர்க்கவும்.", time: "2 நிமிடங்கள்" },
+                    { step: "சேர் நன்றாக.", time: "சேர்ந்து!" }
+                ],
+                image: "curd.png", 
+                calories:  250,
+                totalTime: 30
+                
+            },
+            "Idli": {
+                ingredients: ["2 கப் இட்லி அரிசி", "1 கப் உளுந்து", "உப்பு", "நீர் (தேவையான அளவு)"],
+                recipe: [
+                    { step: "இட்லி அரிசி மற்றும் உளுந்தை 6-8 மணிநேரம் ஊற வைக்கவும்.", time: "6-8 மணிநேரம்" },
+                    { step: "பாட்டருக்காக சேர்க்கவும்.", time: "20 நிமிடங்கள்" },
+                    { step: "மாலைப் பருகவும்.", time: "8 மணிநேரம்" },
+                    { step: "சமைக்கவும்.", time: "15 நிமிடங்கள்" },
+                    { step: "சேர் நன்றாக.", time: "சேர்ந்து!" }
+                ],
+                image: "idli.png", 
+                calories:  150,
+                totalTime: 30
+            },
+
+            "Chicken Curry": {
+        ingredients: ["500கி சிக்கன் ( துண்டுகளாக வெட்டியது)", "2 வெங்காயம் (சீறியது)", "2 தக்காளி (நறுக்கியது)", "2 மேசை கரக் குடிகாரம்", "2 மேசை கறி பொடி", "உப்பு சுவைக்கேற்ப", "3 மேசை எண்ணெய்", "1 மேசை கடுகு", "1 மேசை சீரகம்", "2 பச்சை மிளகாய் (வெட்டியது)", "அறுகு கொத்தரிச்சட்டை (அலங்கரிக்க)"],
+        recipe: [
+            { step: "எண்ணெயில் கடுகு மற்றும் சீரகம் சேர்க்கவும், துளியும்போது விடுங்கள்.", time: "2 நிமிடம்" },
+            { step: "சீறிய வெங்காயம் மற்றும் பச்சை மிளகாயை சேர்க்கவும், வெள்ளை வெண்ணிலையாய் மஞ்சள் நிறமாக வரும்வரை வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம் சேர்க்கவும், நன்றாக கலக்கவும்.", time: "2 நிமிடம்" },
+            { step: "தக்காளி மற்றும் கறி பொடியை சேர்க்கவும், வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "சிக்கன் துண்டுகளைச் சேர்க்கவும், உப்பும் சேர்க்கவும், மூடி வதக்கவும்.", time: "20 நிமிடம்" },
+            { step: "அலங்கரிக்க கொத்தரிச்சட்டை சேர்க்கவும், சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ],
+        image: "chicken.png", 
+                calories:  350,
+                totalTime: 60
+    },
+
+    "Fish Fry": {
+        ingredients: ["500கி மீன் துண்டுகள்", "2 மேசை எலுமிச்சை நீர்", "1 மேசை சிவப்பு மிளகாய் பொடி", "1 மேசை மஞ்சள் பொடி", "உப்பு சுவைக்கேற்ப", "வறுத்துக்கொள்ள எண்ணெய்"],
+        recipe: [
+            { step: "எலுமிச்சை நீர், மிளகாய் பொடி, மஞ்சள் பொடியுடன் மீனை மரிணிக்கவும், 30 நிமிடம் விடுங்கள்.", time: "30 நிமிடம்" },
+            { step: "எண்ணெய் உண்டாக்கவும்.", time: "2 நிமிடம்" },
+            { step: "மரிணிக்கப்பட்ட மீனை ஒவ்வொரு பக்கம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "எலுமிச்சை துண்டுகளுடன் சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ],image: "fishfry.png", 
+                calories:  300,
+                totalTime: 30
+    },
+
+   "Mutton Biryani": {
+        ingredients: ["500கி மட்டன் (துண்டுகளாக வெட்டியது)", "2 கிண்ணம் பாஸ்மதி அரிசி", "2 வெங்காயம் (சீறியது)", "2 தக்காளி (நறுக்கியது)", "1 மேசை கரக் குடிகாரம்", "2 மேசை பிரியாணி மசாலா", "3 கிண்ணம் நீர்", "உப்பு சுவைக்கேற்ப", "4 மேசை எண்ணெய்", "புதினா மற்றும் கொத்தரிச்சி (அலங்கரிக்க)"],
+        recipe: [
+            { step: "எண்ணெயில் வெங்காயங்களை சேர்க்கவும், மஞ்சள் நிறம் வரும் வரை வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம், தக்காளி மற்றும் மட்டனைச் சேர்க்கவும், 10 நிமிடம் வதக்கவும்.", time: "10 நிமிடம்" },
+            { step: "பிரியாணி மசாலா, உப்பும், நீர் சேர்க்கவும்; கொதிக்க விடுங்கள்.", time: "5 நிமிடம்" },
+            { step: "அரிசியைச் சேர்க்கவும்; மூடியை மூடி, கெட்டியாகவும் காத்திருக்கவும்.", time: "20 நிமிடம்" },
+            { step: "அலங்கரிக்க புதினா மற்றும் கொத்தரிச்சி சேர்க்கவும்.", time: "தயார்" }
+        ],
+        image: "mb.png", 
+                calories:  600,
+                totalTime: 100
+    },
+
+     "Shrimp Scampi": {
+        ingredients: ["500கி ப்ரான் (கோவையை நீக்கியது)", "4 மேசை வெண்ணெய்", "4 பூண்டு (நறுக்கியது)", "1/4 கிண்ணம் வெள்ளை மது", "1 மேசை எலுமிச்சை நீர்", "உப்பு மற்றும் மிளகு சுவைக்கேற்ப", "புதினா (அலங்கரிக்க)", "செய்யப்பட்ட பாஸ்தா (சர்விங்)"],
+        recipe: [
+            { step: "வெண்ணெயில் பூண்டுகளை சேர்க்கவும், 1 நிமிடம் வதக்கவும்.", time: "1 நிமிடம்" },
+            { step: "ப்ரான், உப்பு மற்றும் மிளகை சேர்க்கவும்; ப்ரான் செம்பருக்கும்வரை வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "வெள்ளை மது மற்றும் எலுமிச்சை நீர் சேர்க்கவும்; 2 நிமிடம் சமைக்கவும்.", time: "2 நிமிடம்" },
+            { step: "பாஸ்தாவில் SERVE செய்யவும், புதினாவுடன் அலங்கரிக்கவும்.", time: "தயார்" }
+        ]
+    },
+
+    "Butter Chicken": {
+        ingredients: ["500கி சிக்கன் (கிரீல்)", "2 மேசை வெண்ணெய்", "1 வெங்காயம் (நறுக்கியது)", "2 தக்காளி (பியூரே செய்து)", "2 மேசை கரக் குடிகாரம்", "1 மேசை கிரீம்", "உப்பு சுவைக்கேற்ப"],
+        recipe: [
+            { step: "வெண்ணெயில் வெங்காயம் சேர்க்கவும், மெனுமெனு வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம் மற்றும் உப்புடன் சேர்க்கவும், 2 நிமிடம் வதக்கவும்.", time: "2 நிமிடம்" },
+            { step: "தக்காளி பியூரே சேர்க்கவும், 10 நிமிடம் சமைக்கவும்.", time: "10 நிமிடம்" },
+            { step: "சிக்கனைச் சேர்க்கவும், 15 நிமிடம் நீடிக்கவும்.", time: "15 நிமிடம்" },
+            { step: "கிரீம் சேர்க்கவும், 5 நிமிடம் வேக விடுங்கள்.", time: "5 நிமிடம்" },
+            { step: "நான் அல்லது அரிசியுடன் SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+
+    "Beef Stroganoff": {
+        ingredients: ["500கி ஆட்டுக்குட்டு (வெட்டியது)", "1 வெங்காயம் (சீறியது)", "200கி குஞ்சு பூண்டு (சீறியது)", "2 மேசை பருப்பு", "1 கிண்ணம் மட்டன் குழம்பு", "1/2 கிண்ணம் SOUR CREME", "2 மேசை எண்ணெய்", "உப்பு மற்றும் மிளகு சுவைக்கேற்ப"],
+        recipe: [
+            { step: "எண்ணெயில் வெங்காயங்களை சேர்க்கவும், 5 நிமிடம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "குஞ்சு பூண்டுகள் மற்றும் ஆட்டுக்குட்டைச் சேர்க்கவும், 10 நிமிடம் வதக்கவும்.", time: "10 நிமிடம்" },
+            { step: "பருப்பு சேர்க்கவும், 2 நிமிடம் சமைக்கவும்.", time: "2 நிமிடம்" },
+            { step: "மட்டன் குழம்பு மற்றும் SOUR CREME சேர்க்கவும், 5 நிமிடம் கிளறவும்.", time: "5 நிமிடம்" },
+            { step: "பாஸ்தா அல்லது அரிசியில் SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+
+    "Egg Curry": {
+        ingredients: ["4 செருக்கி முட்டைகள்", "2 வெங்காயம் (சீறியது)", "2 தக்காளி (பியூரே)", "2 மேசை கரக் குடிகாரம்", "2 மேசை கறி பொடி", "உப்பு சுவைக்கேற்ப", "3 மேசை எண்ணெய்", "அறுகு கொத்தரிச்சட்டை (அலங்கரிக்க)"],
+        recipe: [
+            { step: "எண்ணெயில் வெங்காயம் சேர்க்கவும், 5 நிமிடம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம் மற்றும் உப்புடன் சேர்க்கவும், 10 நிமிடம் வதக்கவும்.", time: "10 நிமிடம்" },
+            { step: "முட்டைகளைச் சேர்க்கவும், 5 நிமிடம் வேக விடுங்கள்.", time: "5 நிமிடம்" },
+            { step: "கொத்தரிச்சட்டை சேர்க்கவும், சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+
+   "Tandoori Chicken": {
+        ingredients: ["500கி சிக்கன் (துண்டுகளாக வெட்டியது)", "1 கிண்ணம் தயிர்", "2 மேசை தந்தூரி மசாலா", "1 மேசை எலுமிச்சை நீர்", "உப்பு சுவைக்கேற்ப", "2 மேசை எண்ணெய்", "அறுகு கொத்தரிச்சட்டை (அலங்கரிக்க)"],
+        recipe: [
+            { step: "சிக்கனை தயிர், தந்தூரி மசாலா, எலுமிச்சை நீர், மற்றும் உப்புடன் 1 மணி நேரம் மரிணிக்கவும்.", time: "1 மணி நேரம்" },
+            { step: "ஓவனைக் கடைசி நிலைக்கு கொண்டு செல்லவும்.", time: "10 நிமிடம்" },
+            { step: "மரிணிக்கப்பட்ட சிக்கனைப் பொருத்தவும்.", time: "2 நிமிடம்" },
+            { step: "30-35 நிமிடம் வரை பூர்த்தி செய்யவும்.", time: "35 நிமிடம்" },
+            { step: "அறுகு கொத்தரிச்சட்டை சேர்க்கவும், சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ],            image: "tc.png", 
+                calories:  300,
+                totalTime: 100
+    },
+
+    "Prawn Masala": {
+        ingredients: ["500கி ப்ரான் (நீக்கியது)", "2 வெங்காயம் (சீறியது)", "2 தக்காளி (நறுக்கியது)", "2 மேசை கரக் குடிகாரம்", "2 மேசை மசாலா பொடி", "உப்பு சுவைக்கேற்ப", "3 மேசை எண்ணெய்", "அறுகு கொத்தரிச்சட்டை (அலங்கரிக்க)"],
+        recipe: [
+            { step: "எண்ணெயில் வெங்காயம் சேர்க்கவும், 5 நிமிடம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம், தக்காளி மற்றும் மசாலா பொடியுடன் சேர்க்கவும்.", time: "10 நிமிடம்" },
+            { step: "ப்ரான் மற்றும் உப்புடன் சேர்க்கவும், 5 நிமிடம் வேக விடுங்கள்.", time: "5 நிமிடம்" },
+            { step: "கொத்தரிச்சட்டை சேர்க்கவும், சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+
+    "Lamb Kebab": {
+        ingredients: ["500கி நாட்டு ஆடு (வெட்டியது)", "1 வெங்காயம் (சீறியது)", "2 மேசை கரக் குடிகாரம்", "2 பச்சை மிளகாய் (சீறியது)", "1 மேசை களி மசாலா", "உப்பு சுவைக்கேற்ப", "அறுகு கொத்தரிச்சட்டை (அலங்கரிக்க)"],
+        recipe: [
+            { step: "நாட்டு ஆடு, வெங்காயம், கரக் குடிகாரம், பச்சை மிளகாய்கள் மற்றும் உப்பைக் கலந்து ஒரு கிண்ணத்தில் ஊற்றவும்.", time: "5 நிமிடம்" },
+            { step: "இதனை கெபாப்களை உருவாக்கவும்.", time: "10 நிமிடம்" },
+            { step: "கெபாப்களைப் பொரித்துக் கிழிக்கவும்.", time: "15 நிமிடம்" },
+            { step: "அறுகு கொத்தரிச்சட்டை சேர்க்கவும், சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+
+    "Chilli Chicken": {
+        ingredients: ["500கி சிக்கன் (துண்டுகளாக வெட்டியது)", "2 வெங்காயம் (சீறியது)", "2 பச்சை மிளகாய் (சீறியது)", "2 மேசை கரக் குடிகாரம்", "2 மேசை சோயா சாஸ்", "1 மேசை சிவப்பு மிளகாய் பொடி", "உப்பு சுவைக்கேற்ப", "3 மேசை எண்ணெய்"],
+        recipe: [
+            { step: "எண்ணெயில் வெங்காயம் சேர்க்கவும், 5 நிமிடம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "கரக் குடிகாரம், சிக்கன் மற்றும் உப்பு சேர்க்கவும்; சிக்கன் பழுப்பு நிறம் வரும்வரை வதக்கவும்.", time: "10 நிமிடம்" },
+            { step: "பச்சை மிளகாய், சோயா சாஸ், சிவப்பு மிளகாய் பொடி மற்றும் உப்பு சேர்க்கவும்; 5 நிமிடம் வதக்கவும்.", time: "5 நிமிடம்" },
+            { step: "அரிசி அல்லது நூடிள்ஸுடன் சூடாக SERVE செய்யவும்.", time: "தயார்" }
+        ]
+    },
+    "Murukku": {
+    ingredients: ["2 கப் அரிசி மாவு", "1/2 கப் உளுத்தம் மாவு", "1 tbsp எள்ளு", "1/2 tsp சோம்பு", "சல்லாடு சுவைக்கு", "தேவையான அளவு நீர்", "தயிர் (வறுத்த)"],
+    recipe: [
+        { step: "ஒரு பாத்திரத்தில் அரிசி மாவு, உளுத்தம் மாவு, எள்ளு, சோம்பு மற்றும் சல்லாடுகளை கலந்து கொள்ளவும்.", time: "5 நிமிடங்கள்" },
+        { step: "தீட்டும் மாவு சேர்க்கும் போது மென்மையாக உடைத்து கொள்ளவும்.", time: "5 நிமிடங்கள்" },
+        { step: "ஒரு காரில் எண்ணெய் சூடானதும்", time: "5 நிமிடங்கள்" },
+        { step: "மாவு கோட்டவும், இடைவிடாது வைக்கவும்.", time: "10 நிமிடங்கள்" },
+        { step: "வெண்ணிலாவதற்கு வைக்கவும்.", time: "5-7 நிமிடங்கள்" },
+        { step: "பேப்பர் பருத்தியில் வடிகட்டி, விட்டுவிடவும்.", time: "தயார்" }
+    ]
+},
+
+"Thengai Burfi": {
+    ingredients: ["2 கப் தேங்காய் (துருவிய)", "1 கப் வெள்ளரி (துருவிய)", "1/4 கப் பால்", "1/4 tsp ஏலக்காய் தூள்", "1 tbsp நெய்", "கட்ச்சம் கீறுகளில் நறுக்கமான"],
+    recipe: [
+        { step: "ஒரு வாணலியில் நெய் சூடாகவும், பிறகு துருவிய தேங்காய் மற்றும் வெள்ளரி சேர்க்கவும்.", time: "5 நிமிடங்கள்" },
+        { step: "வெள்ளரி கரைந்ததும் தேங்காய் சேர்க்கவும்.", time: "5 நிமிடங்கள்" },
+        { step: "பால் மற்றும் ஏலக்காய் தூள் சேர்க்கவும். குதிக்கும்வரை சுடவும்.", time: "10 நிமிடங்கள்" },
+        { step: "ஒரு தடவையை பரப்பவும்.", time: "2 நிமிடங்கள்" },
+        { step: "நறுக்கான கட்ச்சங்களால் அலங்கரிக்கவும்.", time: "தயார்" }
+    ]
+},
+
+"Kadai Paneer": {
+    ingredients: ["200g பன்னீர் (நறுக்கிய)", "1 காப்ஸிகம் (நறுக்கிய)", "1 வெங்காயம் (நறுக்கிய)", "2 தக்காளி (பூரிக்க)", "1 tsp இஞ்சி-பூண்டு பாகு", "1 tbsp கடை மசாலா", "சல்லாடு சுவைக்கு", "2 tbsp எண்ணெய்", "கொத்தமல்லி இலைகள் (அலங்கரிக்க)"],
+    recipe: [
+        { step: "ஒரு காய்ச்சலியில் எண்ணெய் வைக்கவும், வெங்காயத்தை சேர்க்கவும். மஞ்சள் வரையில் சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "இஞ்சி-பூண்டு மற்றும் வெங்காயத்தை சேர்க்கவும். மேலும் ஒரு நிமிடம் சுடவும்.", time: "1 நிமிடம்" },
+        { step: "தக்காளி குருதியில் சேர்க்கவும் மற்றும் எண்ணெய் கிளப்பும் வரை சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "காப்ஸிகம், பன்னீர் மற்றும் கடை மசாலா சேர்க்கவும். நன்கு கலக்கவும்.", time: "5 நிமிடங்கள்" },
+        { step: "கொத்தமல்லி இலைகள் (அலங்கரிக்க) விடவும்.", time: "தயார்" }
+    ]
+},
+"Vegetable Pulao": {
+    ingredients: ["1 கப் பாசுமதி அரிசி", "2 கப் குழம்பி காய்கறிகள் (பீன்ஸ், காரட், பட்டாணி)", "1 வெங்காயம் (நறுக்கிய)", "2 காய்மிளகாய்", "1 tsp இஞ்சி-பூண்டு பாகு", "1 tsp புலாவ் மசாலா", "சல்லாடு சுவைக்கு", "2 tbsp எண்ணெய்", "2 கப் நீர்"],
+    recipe: [
+        { step: "பாசுமதி அரிசியை 30 நிமிடங்கள் ஊற வைக்கவும். கழுவவும்.", time: "30 நிமிடங்கள்" },
+        { step: "ஒரு பாத்திரத்தில் எண்ணெய் சூடானதும் வெங்காயத்தை சேர்க்கவும். மஞ்சள் வரையில் சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "இஞ்சி-பூண்டு மற்றும் காய்மிளகாயை சேர்க்கவும். ஒரு நிமிடம் சுடவும்.", time: "1 நிமிடம்" },
+        { step: "குழம்பி காய்கறிகள் மற்றும் புலாவ் மசாலா சேர்க்கவும். பத்துக்கும் சில நிமிடங்கள் சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "அரிசி, நீர் சேர்க்கவும். மேலும் 15 நிமிடங்கள் சுடவும்.", time: "15 நிமிடங்கள்" },
+        { step: "பாதுபண்ணுங்கள் மற்றும் வெந்நீர் சுடு.", time: "தயார்" }
+    ]
+},
+"Pudhina Rice": {
+    ingredients: ["1 கப் பாசுமதி அரிசி", "1/2 கப் புதினா இலை", "1 வெங்காயம் (நறுக்கிய)", "2 காய்மிளகாய்கள்", "1 tsp இஞ்சி-பூண்டு பாகு", "1 tsp கறி மசாலா", "சல்லாடு சுவைக்கு", "2 tbsp எண்ணெய்", "2 கப் நீர்"],
+    recipe: [
+        { step: "பாசுமதி அரிசியை 30 நிமிடங்கள் ஊற வைக்கவும். கழுவவும்.", time: "30 நிமிடங்கள்" },
+        { step: "ஒரு பாத்திரத்தில் எண்ணெய் சூடானதும் வெங்காயத்தை சேர்க்கவும். மஞ்சள் வரையில் சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "இஞ்சி-பூண்டு மற்றும் காய்மிளகாயை சேர்க்கவும். ஒரு நிமிடம் சுடவும்.", time: "1 நிமிடம்" },
+        { step: "புதினா இலை சேர்க்கவும். மேலும் 2 நிமிடங்கள் சுடவும்.", time: "2 நிமிடங்கள்" },
+        { step: "அரிசி, கறி மசாலா, மற்றும் நீர் சேர்க்கவும். மேலும் 15 நிமிடங்கள் சுடவும்.", time: "15 நிமிடங்கள்" },
+        { step: "பாதுபண்ணுங்கள் மற்றும் வெந்நீர் சுடு.", time: "தயார்" }
+    ]
+},
+
+"Masala Dosa": {
+    ingredients: ["1 கப் தோசை மாவு", "2 உருளைக்கிழங்கு (அலசிக்க)", "1 வெங்காயம் (நறுக்கிய)", "1 tsp கடுகு", "2 காய்மிளகாய்கள்", "கறிவேப்பிலைகள்", "சல்லாடு சுவைக்கு", "எண்ணெய் (சமைப்பதற்காக)"],
+    recipe: [
+        { step: "ஒரு காய்ச்சலியில் எண்ணெய் வைக்கவும் மற்றும் கடுகு சேர்க்கவும். வெடிக்கும் வரை காத்திருக்கவும்.", time: "2 நிமிடங்கள்" },
+        { step: "வெங்காயம், காய்மிளகாய் மற்றும் கறிவேப்பிலைகளை சேர்க்கவும். மஞ்சள் வரையில் சுடவும்.", time: "5 நிமிடங்கள்" },
+        { step: "அலசிக்கப்பட்ட உருளைக்கிழங்கைச் சேர்க்கவும். மேலும் ஒரு நிமிடம் சுடவும்.", time: "1 நிமிடம்" },
+        { step: "தோசை மாவு ஊற்றவும் மற்றும் உருளைக்கிழங்கை இடுங்கள்.", time: "2 நிமிடங்கள்" },
+        { step: "வெந்து கொண்டு பரிமாறவும்.", time: "தயார்" }
+    ]
+}
+        };
+
+        
+
+        document.querySelector('.searchButton').addEventListener('click', function() {
+            const dishName = document.getElementById('dishInput').value.trim().toLowerCase();
+            const recipeContainer = document.getElementById('recipeContainer');
+            recipeContainer.innerHTML = '';
+              
+
+
+
+            const normalizedDishName = dishName.replace(/[^a-zA-Z0-9]/g, '');
+
+            const dishKey = Object.keys(recipes).find(key => {
+                const normalizedKey = key.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+                return normalizedKey === normalizedDishName;
+            });
+
+            if (dishKey) {
+                const dish = recipes[dishKey];
+                const ingredientsList = dish.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+                const recipeSteps = dish.recipe.map(step => `<li class="heart-list-item">${step.step} <span class="time">(${step.time})</span><br></li>`).join('');
+                recipeContainer.innerHTML = `
+                    <div class="recipe-container text-white">
+                                    <div class="dish-info mb-4">
+            <p class="text-lg font-semibold">Calories: ${dish.calories}</p>
+            <p class="text-lg font-semibold">Total Time: ${dish.totalTime} minutes</p>
+        </div>
+                        <img src="${dish.image}" alt="${dishName}" class="floating-image w-full h-auto mb-4" />
+                        <h3 class="text-lg font-semibold glowing-text">Ingredients:</h3>
+                        <ul class="heart-list mb-4">${ingredientsList}</ul>
+                        <h3 class="text-lg font-semibold glowing-text">Recipe:</h3>
+                        <ul class="heart-list">${recipeSteps}</ul>
+                        <button class=" text-lg font-semibold  translateButton gradient-button w-full mt-4">Translate to தமிழ்</button>
+                    </div>
+                `;  homeButton.style.display = 'inline-block';
+
+                document.querySelector('.translateButton').addEventListener('click', function() {
+                    const translatedDish = translatedRecipes[dishKey];
+                    if (translatedDish) {
+                        const translatedIngredientsList = translatedDish.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+                        const translatedRecipeSteps = translatedDish.recipe.map(step => `<li class="heart-list-item">${step.step} <span class="time">(${step.time})</span><br></li>`).join('');
+                        
+                        recipeContainer.innerHTML = `
+                            <div class="recipe-container text-white">
+                                                                        <div class="dish-info mb-4">
+            <p class="text-lg font-semibold">Calories: ${dish.calories}</p>
+            <p class="text-lg font-semibold">Total Time: ${dish.totalTime} minutes</p>
+        </div>
+                                <img src="${dish.image}" alt="${dishName}" class="floating-image w-full h-auto mb-4" />
+                                <h3 class="text-lg font-semibold glowing-text">செய்முறை:</h3>
+                                <ul class="heart-list mb-4">${translatedIngredientsList}</ul>
+                                <h3 class="text-lg font-semibold glowing-text">சமையல் செய்முறை:</h3>
+                                <ul class="heart-list">${translatedRecipeSteps}</ul>
+                                <button class=" text-lg font-semibold  translateTanglishButton gradient-button w-full mt-4">Translate to Tanglish</button>
+                            </div>
+                        `;
+
+                        document.querySelector('.translateTanglishButton').addEventListener('click', function() {
+                            const tanglishRecipes = {
+                                "Sambar": {
+                                    ingredients: ["1 cup thoor paruppu", "1 lemon-sized puli", "2 cups kalaviyana kaikarigal (carrot, beans, urulaikizhangu, mudaliyavai)", "2 tbsp sambar podi", "uppu thevaiyana alavu", "2 tbsp yennai", "1 tsp kadugu", "1 tsp seeragam", "1/4 tsp perungayam", "2 ularntha sivappu milagai", "10 karuveppilai"],
+                                    recipe: [
+                                        { step: "thoor paruppai kazhuvi, 3 cup thanneeril nalla vegavaikkavum.", time: "15 minutes" },
+                                        { step: "puliyai vennneeril 10 nimidangal ooravaiththu, puli saaru edukkavum.", time: "10 minutes" },
+                                        { step: "kaikarigalai narukki, 2 cup thanneeril nalla vegavaikkavum .", time: "10 minutes" },
+                                        { step: "vega vaitha paruppu, puli saaru, sambar podi, uppu agivatrai kaikarigaludan serthu nalla kilaraavum. 10 nimidangal nalla sundavaikkavum.", time: "10 minutes" },
+                                        { step: "oru siria vanalil yennai soodakki, kadugu, seeragam, perungayam, ularntha sivappu milagai, karuveppilai serthu thaalikkavum.", time: "2 minutes" },
+                                        { step: "thaaliththathai sambaaril serthu nalla kilaraavum. melum 5 nimidangal sundavaikkavum.", time: "5 minutes" },
+                                        { step: "soodaga satham allathu idliudan parimaaraavum.", time: "pannitom" }
+                                    ],
+                                    video: "https://www.youtube.com/embed/dFn7_JGW0sI",
+                                     image: "sambar.png", 
+                                     calories:  200,
+                                     totalTime: 50
+                                },
+                                "Rasam": {
+                                    ingredients: ["1 lemon-sized puli", "2 thakkali", "2 tbsp rasam podi", "uppu thevaiyana alavu", "1 tbsp yennai", "1 tsp kadugu", "1 tsp seeragam", "1/4 tsp perungayam", "2 ularntha sivappu milagai", "10 karuveppilai", "2 cup thanneer", "1 tbsp narukkiya kothamalli ilaigal"],
+                                    recipe: [
+                                        { step: "puliyai vennneeril 10 nimidangal ooravaiththu, puli saaru edukkavum.", time: "10 minutes" },
+                                        { step: "thakkaligalai narukki, 2 cup thanneerudan oru paathiraththil serthu kothikkavidaavum.", time: "5 minutes" },
+                                        { step: "puli saaru, rasam podi, uppu agivatrai paathiraththil serthu 10 nimidangal nalla sundavaikkavum.", time: "10 minutes" },
+                                        { step: "oru siria vanalil yennai soodakki, kadugu, seeragam, perungayam, ularntha sivappu milagai, karuveppilai serthu thaalikkavum.", time: "2 minutes" },
+                                        { step: "thaaliththathai rasaththil serthu nalla kilaraavum. melum 5 nimidangal sundavaikkavum.", time: "5 minutes" },
+                                        { step: "narukkiya kothamalli ilaigalal alangariththu soodaga parimaaraavum.", time: "pannitom" }
+                                    ],
+                                    image: "rasam.png",
+                                      calories:  80,
+                                      totalTime: 40,
+                                      video: "https://www.youtube.com/embed/HWeeqKtxpNU"
+                                },
+                                "Ven Pongal": {
+                                          ingredients: ["1 cup arisi", "1/4 cup paasi paruppu", "1 tsp milagu", "1 tsp pudhina", "2 tbsp ney", "uppu thevaiyana alavu", "10 mundhiri", "10 karuveppilai"],
+                                          recipe: [
+                                          { step: "paasi paruppai varuthu 5 nimidangal sathikkavum.", time: "5 minutes" },
+                                          { step: "arisi, paruppu, 15 nimidangal thanneeril nalla sathikkavum.", time: "15 minutes" },
+                                          { step: "neyil milagu, pudhina, mundhiri, karuveppilai serthu, kothikavum.", time: "2 minutes" },
+                                          { step: "kottikonda sathikkavum.", time: "pannitom" }
+                                           ],
+                                           image: "venpongal.png",
+                                           calories:  300,
+                                           totalTime: 40,
+                                            video: "https://www.youtube.com/embed/4dQ4ts6ifcg"
+                                 },
+                                 "Kootu": {
+                ingredients: ["1 cup thoor paruppu", "2 cups kalaviyana kaikarigal", "1/2 cup thengai", "2 tsp pudhina", "1/2 tsp kadugu", "1/4 tsp manjal thool", "uppu thevaiyana alavu", "2 tbsp yennai"],
+                recipe: [
+                    { step: "thoor paruppai sathikkavum.", time: "20 minutes" },
+                    { step: "kaikarigalai narukki, 10 nimidangal thanneeril samaikkavum.", time: "10 minutes" },
+                    { step: "thengai, pudhina narukki, 5 nimidangal.", time: "5 minutes" },
+                    { step: "ithai serthu parukkavum.", time: "5 minutes" },
+                    { step: "sundavaikkavum.", time: "pannitom" }
+                ],image: "kootu.png",
+                calories:  200,
+                totalTime: 40,
+                video: "https://www.youtube.com/embed/HduZZqqKtGQ"
+            },
+            "Avial": {
+                ingredients: ["2 cups kalaviyana kaikarigal", "1 cup thayir", "1/2 cup thengai", "2 tsp pudhina", "1 tbsp thengai yennai", "uppu thevaiyana alavu"],
+                recipe: [
+                    { step: "kaikarigalai narukki, 15 nimidangal sathikkavum.", time: "15 minutes" },
+                    { step: "thengai, pudhina narukki, 5 nimidangal.", time: "5 minutes" },
+                    { step: "ithai serthu parukkavum.", time: "pannitom" }
+                ],                    image: "avial.png", 
+                calories:  240,
+                totalTime: 40,
+                video: "https://www.youtube.com/embed/I51Olvbe3m8"
+            },
+            "Curd Rice": {
+                ingredients: ["1 cup arisi", "1 cup thayir", "1/2 tsp kadugu", "1/2 tsp pudhina", "2 pachai milagai", "10 karuveppilai", "uppu thevaiyana alavu", "2 tbsp yennai"],
+                recipe: [
+                    { step: "arisi 20 nimidangal sathikkavum.", time: "20 minutes" },
+                    { step: "thayir serthu, 5 nimidangal.", time: "5 minutes" },
+                    { step: "yennai soodakki, kadugu, pudhina, milagai, karuveppilai serthu thaalikkavum.", time: "2 minutes" },
+                    { step: "sundavaikkavum.", time: "pannitom" }
+                ],image: "curd.png", 
+                calories:  250,
+                totalTime: 30,
+                video: "https://www.youtube.com/embed/UAkOKWpP1y8"
+            },
+            "Idli": {
+                ingredients: ["2 cups idli arisi", "1 cup ulunthu", "uppu thevaiyana alavu", "water (thevaiyana alavu)"],
+                recipe: [
+                    { step: "idli arisiyum ulunthaiyum 6-8 mani neram ooravittal.", time: "6-8 hours" },
+                    { step: "pattarukku narukki, 20 nimidangal.", time: "20 minutes" },
+                    { step: "uppu serthu, idli pattil kalakkavum.", time: "pannitom" }
+                ],image: "idli.png", 
+                calories:  150,
+                totalTime: 30,
+                video: "https://www.youtube.com/embed/VzgzG2guCZo"
+            },
+            "Chicken Curry": {
+        ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Bell Peppers (sliced)", "2 tbsp Ginger-Garlic paste", "2 tbsp Soy sauce", "1 tbsp Red chili powder", "Salt to taste", "3 tbsp Oil"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, translucent-a varai sauté pannunga.", time: "5 minutes" },
+            { step: "Onions golden brown-a varumbothu, ginger-garlic paste-a vaithu; 2 minutes sauté pannunga.", time: "2 minutes" },
+            { step: "Chicken pieces-a vaithu, salt and red chili powder-a vaithu; 10 minutes cook pannunga.", time: "10 minutes" },
+            { step: "Bell peppers-a vaithu; mix pannunga, 5 minutes varai simmer pannunga.", time: "5 minutes" },
+            { step: "Hot-a rice or roti-oda serve pannunga.", time: "Ready" }
+        ],            image: "chicken.png", 
+                calories:  350,
+                totalTime: 60,
+         video: "https://www.youtube.com/embed/o2IQkdOYx1g"
+    },
+
+    "Fish Fry": {
+        ingredients: ["500g Fish pieces", "2 tbsp Lemon juice", "1 tbsp Red chili powder", "1 tbsp Turmeric powder", "Salt to taste", "Oil for frying"],
+        recipe: [
+            { step: "Lemon juice, chili powder, turmeric powder-oda fish-a marinate pannunga; 30 minutes vechukka.", time: "30 minutes" },
+            { step: "Oil thaan pannunga; medium heat-kku set pannunga.", time: "2 minutes" },
+            { step: "Marinate pannirukkara fish-a fry pannunga, each side-a 3-4 minutes varai.", time: "8 minutes" },
+            { step: "Fish golden brown-a varumpondu, lemon slices-oda hot-a serve pannunga.", time: "Ready" }
+        ],  image: "fishfry.png", 
+                calories:  300,
+                totalTime: 30,
+         video: "https://www.youtube.com/embed/o8lDCY2_jyw"
+    },
+
+    "Mutton Biryani": {
+        ingredients: ["500g Mutton (cut into pieces)", "2 cups Basmati rice", "2 Onions (sliced)", "2 Tomatoes (chopped)", "1 tbsp Ginger-Garlic paste", "2 tbsp Biryani masala", "3 cups Water", "Salt to taste", "4 tbsp Oil", "Mint and Coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, golden brown-a varai sauté pannunga.", time: "5 minutes" },
+            { step: "Onions golden brown-a varumpondu, ginger-garlic paste-a vaithu; 2 minutes sauté pannunga.", time: "2 minutes" },
+            { step: "Tomatoes and salt-a vaithu; tomatoes mushy-a varai 5 minutes cook pannunga.", time: "5 minutes" },
+            { step: "Mutton pieces-a vaithu, 10 minutes sauté pannunga.", time: "10 minutes" },
+            { step: "Biryani masala and water-a vaithu; boil pannunga.", time: "5 minutes" },
+            { step: "Rice-a vaithu; cover pannunga, dum cook pannunga for 20 minutes.", time: "20 minutes" },
+            { step: "Mint and coriander leaves-oda garnish pannunga; serve pannunga.", time: "Ready" }
+        ],image: "mb.png", 
+                calories:  600,
+                totalTime: 100,
+         video: "https://www.youtube.com/embed/q6FOqOgBw1I"
+    },
+
+    "Shrimp Scampi": {
+        ingredients: ["500g Prawns (cleaned)", "4 tbsp Butter", "4 Garlic cloves (chopped)", "1/4 cup White wine", "1 tbsp Lemon juice", "Salt and Pepper to taste", "Mint (for garnish)", "Cooked Pasta (for serving)"],
+        recipe: [
+            { step: "Butter-la garlic-a vaithu, 1 minute sauté pannunga.", time: "1 minute" },
+            { step: "Prawns, salt, pepper-a vaithu; prawns pink-a varai sauté pannunga, 5 minutes.", time: "5 minutes" },
+            { step: "White wine and lemon juice-a vaithu; 2 minutes cook pannunga.", time: "2 minutes" },
+            { step: "Cooked pasta-la serve pannunga, mint-oda garnish pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/xKiF6BWY-Yw"
+    },
+
+    "Butter Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "2 cups Yogurt", "2 Onions (chopped)", "2 Tomatoes (pureed)", "2 tbsp Butter", "1 tbsp Cream", "Salt to taste"],
+        recipe: [
+            { step: "Butter-la onions-a vaithu, 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Onions golden brown-a varumpondu, ginger-garlic paste and tomatoes-a vaithu; 10 minutes cook pannunga.", time: "10 minutes" },
+            { step: "Chicken-a vaithu, 15 minutes cook pannunga; salt-a vaithu.", time: "15 minutes" },
+            { step: "Cream-a vaithu, mix pannunga, 5 minutes simmer pannunga.", time: "5 minutes" },
+            { step: "Naan or rice-oda serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/EO30A86XSdM"
+    },
+
+    "Kadai Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "1 Onion (sliced)", "200g Bell Peppers (sliced)", "2 tbsp Ginger-Garlic paste", "1 cup Tomato puree", "1/2 cup Cream", "2 tbsp Oil", "Salt and Pepper to taste"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Ginger-garlic paste, chicken-a vaithu; 10 minutes sauté pannunga.", time: "10 minutes" },
+            { step: "Bell peppers and tomato puree-a vaithu; mix pannunga, 5 minutes cook pannunga.", time: "5 minutes" },
+            { step: "Cream-a vaithu, 5 minutes cook pannunga.", time: "5 minutes" },
+            { step: "Rice or roti-oda serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/oVUSHdnivM4"
+    },
+
+    "Egg Curry": {
+        ingredients: ["4 Boiled eggs", "2 Onions (sliced)", "2 Tomatoes (pureed)", "2 tbsp Ginger-Garlic paste", "2 tbsp Curry powder", "Salt to taste", "3 tbsp Oil", "Coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Ginger-garlic paste, tomatoes and salt-a vaithu; 10 minutes cook pannunga.", time: "10 minutes" },
+            { step: "Boiled eggs-a vaithu, gently mix pannunga; 5 minutes cook pannunga.", time: "5 minutes" },
+            { step: "Coriander leaves-oda garnish pannunga; hot-a serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/Ef11rzvuDQg"
+    },
+
+    "Tandoori Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "1 cup Yogurt", "2 tbsp Tandoori masala", "1 tbsp Lemon juice", "Salt to taste", "2 tbsp Oil", "Coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Chicken-a yogurt, tandoori masala, lemon juice, salt-oda 1 mani neram marinate pannunga.", time: "1 mani neram" },
+            { step: "Oven preheat pannunga to 200°C.", time: "10 minutes" },
+            { step: "Marinated chicken-a grill pannunga; 30-35 minutes varai cook pannunga.", time: "35 minutes" },
+            { step: "Coriander leaves-oda garnish pannunga; hot-a serve pannunga.", time: "Ready" }
+        ],            image: "tc.png", 
+                calories:  300,
+                totalTime: 100,
+         video: "https://www.youtube.com/embed/UHNn1gMH9Mg"
+    },
+
+    "Prawn Masala": {
+        ingredients: ["500g Prawns (cleaned)", "2 Onions (sliced)", "2 Tomatoes (chopped)", "2 tbsp Ginger-Garlic paste", "2 tbsp Masala powder", "Salt to taste", "3 tbsp Oil", "Coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Ginger-garlic paste, tomatoes, masala powder-a vaithu; 10 minutes cook pannunga.", time: "10 minutes" },
+            { step: "Prawns and salt-a vaithu, 5 minutes cook pannunga; mix pannunga.", time: "5 minutes" },
+            { step: "Coriander leaves-oda garnish pannunga; hot-a serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/LjHHgoQ6kn4"
+    },
+
+    "Mutton Kebab": {
+        ingredients: ["500g Mutton (minced)", "1 Onion (chopped)", "2 tbsp Ginger-Garlic paste", "2 Green chilies (chopped)", "1 tbsp Garam masala", "Salt to taste", "Coriander leaves (for garnish)"],
+        recipe: [
+            { step: "Minced mutton, onions, ginger-garlic paste, green chilies, salt-oda mix pannunga.", time: "5 minutes" },
+            { step: "Mixture-a shape panni, kebabs-a prepare pannunga.", time: "10 minutes" },
+            { step: "Kebabs-a grill or fry pannunga; golden brown-a varai cook pannunga.", time: "15 minutes" },
+            { step: "Coriander leaves-oda garnish pannunga; hot-a serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/y8TKEL0Mkv0"
+    },
+
+    "Chilli Chicken": {
+        ingredients: ["500g Chicken (cut into pieces)", "2 Onions (sliced)", "2 Green chilies (sliced)", "2 tbsp Ginger-Garlic paste", "2 tbsp Soy sauce", "1 tbsp Red chili powder", "Salt to taste", "3 tbsp Oil"],
+        recipe: [
+            { step: "Oil-la onions-a vaithu, 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Ginger-garlic paste, chicken, salt-a vaithu; chicken brown-a varai sauté pannunga.", time: "10 minutes" },
+            { step: "Green chilies, soy sauce, red chili powder-a vaithu; 5 minutes sauté pannunga.", time: "5 minutes" },
+            { step: "Rice or noodles-oda hot-a serve pannunga.", time: "Ready" }
+        ],
+         video: "https://www.youtube.com/embed/IF5kY7PbEFA"
+    },
+    "Murukku": {
+    ingredients: ["2 cup arisi maavu", "1/2 cup ulutham maavu", "1 tbsp ellu", "1/4 tsp sōmbu", "salladu suvaikku", "thevaiyaana alavu neer", "ennai (varuththu)"],
+    recipe: [
+        { step: "Oru patthirathil arisi maavu, ulutham maavu, ellu, sōmbu, mattum salladu kalandhu kolvathu.", time: "5 minutes" },
+        { step: "Neerai ullaidhuthal maavu kaivalayil kalakkum.", time: "5 minutes" },
+        { step: "Oru karaiyil ennai sutthu kulikka vidhaikavum.", time: "5 minutes" },
+        { step: "Maavukku shēyim pezhai pidhikkavum.", time: "10 minutes" },
+        { step: "Pepparippaiyil thavuththu vidhikkavum.", time: "5-7 minutes" },
+        { step: "Nanniyathaiyum sellavum.", time: "Ready" }
+    ],
+    video: "https://www.youtube.com/embed/3uqJUeDI2M"
+},
+
+"Thengai Burfi": {
+    ingredients: ["2 cup thengai (thuruviyath)", "1 cup vellam (thuruviyath)", "1/4 cup paal", "1/4 tsp aelakaai thool", "1 tbsp ney", "kattu killi naatkalai niruththu"],
+    recipe: [
+        { step: "Oru panaiyil ney kuzhikka vidhaikavum, athu kuraiyil thuruviyath thengaiyum vellam serthu panuvathu.", time: "5 minutes" },
+        { step: "Vellam eruvadhum thengai serthu, 5 minutes sutthu panuvathu.", time: "5 minutes" },
+        { step: "Paalum aelakaai thoolum serthu. Thagudiyaana sandhu suvaiththuk kandu panuvathu.", time: "10 minutes" },
+        { step: "Oru thalaikku puramayi serthu thaaiyil varuthu.", time: "2 minutes" },
+        { step: "Nattukku nadhikayi kutti kattu vidhaikkavum.", time: "Ready" }
+    ],
+     video: "https://www.youtube.com/embed/9UIFjHHeg_w"
+},
+
+"Kadai Paneer": {
+    ingredients: ["200g paneer (narrukkai)", "1 kaphsik (narrukkai)", "1 vengai (narrukkai)", "2 thakkali (purikkai)", "1 tsp inji-poondhu paakku", "1 tbsp kadai masala", "salladu suvaikku", "2 tbsp ennai", "kothamalli ilai (alankaarik)"],
+    recipe: [
+        { step: "Oru panaiyil ennai kalandhu vendaiyiyum.", time: "5 minutes" },
+        { step: "Inji-poondhu paakkuyum vendai serthu oru minute sutthu panuvathu.", time: "1 minute" },
+        { step: "Thakkali purikkaiyaiyum naththil sutthu panuvathu.", time: "5 minutes" },
+        { step: "Kaphsik, paneer, kadai masala serthu naththil sutthu panuvathu.", time: "5 minutes" },
+        { step: "Kothamalli ilaiyil (alankaarik) vidhaikkavum.", time: "Ready" }
+    ],
+    video: "https://www.youtube.com/embed/Gjh3f_8F_ag"
+},
+"Vegetable Pulao": {
+    ingredients: ["1 cup basmati arisi", "2 cup mix kizhangu (peash, carrot, beans)", "1 vengai (narrukkai)", "2 kizhangu", "1 tsp inji-poondhu paakku", "1 tsp pulao masala", "salladu suvaikku", "2 tbsp ennai", "2 cup neer"],
+    recipe: [
+        { step: "Basmati arisiyai 30 minutes ooru vidhaikavum. Thara kalankum.", time: "30 minutes" },
+        { step: "Oru panaiyil ennai kalandhu vendaiyiyum.", time: "5 minutes" },
+        { step: "Inji-poondhu paakkuyum kizhangu serthu sutthu panuvathu.", time: "1 minute" },
+        { step: "Mix kizhanguyum pulao masala serthu sutthu panuvathu.", time: "5 minutes" },
+        { step: "Thaaran neeraiyum vidhaikavum, koodiya mudhalaiyil idhu varuththu 15 minutes samaiyavathu.", time: "15 minutes" },
+        { step: "Nellai arisiyai palitthu sudaikkavum.", time: "Ready" }
+    ],
+    video: "https://www.youtube.com/embed/ThHHWLHkq3M"
+},
+"Pudhina Rice": {
+    ingredients: ["1 cup basmati arisi", "1/2 cup pudhina ilai", "1 vengai (narrukkai)", "2 kizhangu", "1 tsp inji-poondhu paakku", "1 tsp kari masala", "salladu suvaikku", "2 tbsp ennai", "2 cup neer"],
+    recipe: [
+        { step: "Basmati arisiyai 30 minutes ooru vidhaikavum. Thara kalankum.", time: "30 minutes" },
+        { step: "Oru panaiyil ennai kalandhu vendaiyiyum.", time: "5 minutes" },
+        { step: "Inji-poondhu paakkuyum kizhangu serthu sutthu panuvathu.", time: "1 minute" },
+        { step: "Pudhina ilai serthu sutthu panuvathu.", time: "2 minutes" },
+        { step: "Arisi, kari masala, neer serthu sutthu panuvathu.", time: "15 minutes" },
+        { step: "Nellai arisiyai palitthu sudaikkavum.", time: "Ready" }
+    ],
+    video: "https://www.youtube.com/embed/A-Aai-ornrs"
+},
+
+"Masala Dosa": {
+    ingredients: ["1 cup dosai maavu", "2 urulaikilangu (alashikka)", "1 vengai (narrukkai)", "1 tsp kadugu", "2 kizhangu", "kariveppilai", "salladu suvaikku", "ennai (samaippatharkku)"],
+    recipe: [
+        { step: "Oru panaiyil ennai kalandhu kadugu serthu vetikkavum.", time: "2 minutes" },
+        { step: "Vengai, kizhangu, kariveppilai serthu sutthu panuvathu.", time: "5 minutes" },
+        { step: "Alashikka urulaikilangai serthu sutthu panuvathu.", time: "1 minute" },
+        { step: "Dosa maavu sutthu alashikka urulaikilangai serthu sutthu panuvathu.", time: "2 minutes" },
+        { step: "Vennangaiyum pakavatta suththu sudaikayum serve panuvathu.", time: "Ready" }
+    ],
+    video: "https://www.youtube.com/embed/IDNtiYTd7_M"
+}
+             
+
+                                           };
+           
+                            if (tanglishRecipes[dishKey]) {
+                                const dish = tanglishRecipes[dishKey];
+                                const ingredientsList = dish.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+                                const recipeSteps = dish.recipe.map(step => `<li class="heart-list-item">${step.step} <span class="time">(${step.time})</span><br></li>`).join('');
+                                recipeContainer.innerHTML = `
+                                    <div class="recipe-container text-white">
+                                                                                <div class="dish-info mb-4">
+            <p class="text-lg font-semibold">Calories: ${dish.calories}</p>
+            <p class="text-lg font-semibold">Total Time: ${dish.totalTime} minutes</p>
+        </div>
+                                       <img src="${dish.image}" alt="${dishName}" class="floating-image w-full h-auto mb-4" />
+                                        <h3 class="text-lg font-semibold glowing-text">Ingredients:</h3>
+                                        <ul class="heart-list mb-4">${ingredientsList}</ul>
+                                        <h3 class="text-lg font-semibold glowing-text">Recipe:</h3>
+                                         <ul class="heart-list">${recipeSteps}</ul>                                           
+                                        <button class= "text-lg font-semibold watchVideoButton gradient-button w-full mt-4">Watch Video</button>
+                                    </div>
+                                `;
+
+                                document.querySelector('.watchVideoButton').addEventListener('click', function() {
+recipeContainer.innerHTML = `
+    <div class="flex justify-center">
+        <iframe width="346" height="200" src="${dish.video}" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="flex justify-center mt-4">
+        <button id="orderZomatoButton" class="gradient-button text-lg font-semibold  text-center py-2" style="width:346px;">Order from Zomato</button>
+    </div>
+`;
+
+document.getElementById('orderZomatoButton').addEventListener('click', function() {
+const dishName = encodeURIComponent(document.getElementById('dishInput').value.trim());
+
+if (dishName) {
+    // Attempt to open the Zomato app with the search query
+    const appLink = `zomato://search?q=${dishName}`;
+    window.open(appLink, '_blank');
+} else {
+    alert('Please enter a dish name.');
+}
+});
+});
+                            } else {
+                                recipeContainer.innerHTML = '<p class="text-red-500">Murayidu kidaikkavillai.</p>';
+                            }
+                        });
+                    } else {
+                        recipeContainer.innerHTML = '<p class="text-red-500">Murayidu kidaikkavillai.</p>';
+                    }
+                });
+            } else {
+                recipeContainer.innerHTML = '<p class="text-black-900  font-semibold " style="color:white; margin-left:75px; text-shadow: 0 0 6px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.434);">♡ Select your dish from the list ♡</p>';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

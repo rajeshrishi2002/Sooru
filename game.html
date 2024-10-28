@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Food Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body background="1.jpeg">
+    <div class="container" style="background-color: rgba(0, 0, 0, 0.475); /* Optional: Add a semi-transparent background */
+">
+        <section class="game-screen animated shake" style="margin-top: 130px;">
+            <header>
+                <h1 style="text-shadow: 0 0 15px white, 0 0 25px white; color: #ffffff;">Food Game</h1>
+                <span class="reset"></span>
+            </header>
+
+            <section>
+                <ul id="cards-container">
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                    <li class="card closed"></li>
+                </ul>
+            </section>
+
+            <section class="monitor" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: center;">
+                    <span class="move"></span>
+                    <h3 class="move-counter" style="font-size: 25px; text-shadow: 0 0 15px white, 0 0 25px white; color: #ffffff;  margin-left: 40px;">0</h3>
+                </div>
+                <div style="text-align: center;">
+                    <ul id="heart-container" style="list-style-type: none; padding: 0; margin-left: 35px;">
+                        <li class="heart"></li>
+                        <li class="heart"></li>
+                        <li class="heart"></li>
+                    </ul>
+                </div>
+                <div style="text-align: center;">
+                    <h3 class="time-counter" style="font-size: 25px; text-shadow: 0 0 15px white, 0 0 25px white; color: #ffffff;margin-right: 30px;">0 : 00</h3>
+                </div>
+            </section>
+        </section>
+           <section class="winner-screen disappear">
+            <section class="winner-first-block" style="margin-bottom: 100px;">
+                <span class="winner-icon animated flash"></span>
+                <div class="winner-text">
+                    <h1 style="margin-bottom: 80px;text-shadow: 0 0 15px white, 0 0 25px white; color: #ffffff;">Congratulations!</h1>
+                  
+                    <p style="text-shadow: 0 0 15px white, 0 0 25px white; color: #ffffff; margin-top: 40px;">with <span class="winner-movements">0</span> move, <span class="winner-hearts">0</span> heart,
+                        in <span class="winner-time">0:00</span></p>
+                </div>
+            </section>
+            <section class="play-again" style="margin-bottom: 110px;">
+                <button onclick="refreshGame()" style="display: flex; align-items: center; padding-left: 12px; margin-left: 120px;">
+                    <span style="margin-right: 0px; line-height: 10px; margin-left: 2px; color:#00820f;">Play Again</span>
+                    <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+                        <img src="home1.png" alt="Home" style="width: 30px; height: 30px;">
+                    </a>
+                </button>
+            </section>
+        </section>
+        <script>
+            function refreshGame() {
+                // Logic to refresh or restart the game
+                location.reload(); // This reloads the current page
+            }
+        </script>
+
+    </div>
+    <audio id="match" src="audios/match.ogg"></audio>
+    <audio id="not-match" src="audios/not-match.ogg"></audio>
+    <audio id="winner" src="audios/winner.ogg"></audio>
+    <script src="script.js"></script>
+</body>
+
+</html>
