@@ -47,6 +47,7 @@ body {
     position: absolute;
     right: 0;
     align-self: center;
+    margin-bottom: 5px;
     cursor: pointer;
     margin-right: 60px;
     filter: drop-shadow(0 0 10px rgba(255, 230, 0, 0.932)); /* Increased glow effect */}
@@ -121,6 +122,7 @@ ul#cards-container li.open {
     display: inline-block;
     width: 20px;
     height: 20px;
+    margin-right: 3px;
     background: url('../images/life.png') no-repeat;
     background-size: contain;
     filter: drop-shadow(0 0 10px rgba(255, 230, 0, 0.932)); /* Increased glow effect */}
