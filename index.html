@@ -183,7 +183,7 @@
 <body class="background-image flex items-center justify-center min-h-screen">
     <div class="w-96">
         <button id="uploadIngredientsButton" class="text-lg font-semibold gradient-button w-full" style="margin-bottom: 27px; width: 347px; margin-left: 20px; color:#00820f;">Ingredients I Have</button>
-        <div id="ingredientsContainer" class="mt-4"></div>
+        <div id="ingredientsContainer" class="mt-4" style="display: none;"></div>
 
         <div class="relative mb-4">
             <input id="dishInput" type="text" placeholder="Enter Your Dish Name Here...." class="w-full p-3 focus:outline-none mb-4" 
@@ -219,6 +219,19 @@
                 window.location.href = "game.html";
             }, 300); // Delay for a brief moment to show the color change
         }
+    </script>
+    <script>
+        document.getElementById('uploadIngredientsButton').addEventListener('click', function() {
+    const ingredientsContainer = document.getElementById('ingredientsContainer');
+
+    // Toggle the display of the ingredients input field
+    if (ingredientsContainer.style.display === 'none' || ingredientsContainer.style.display === '') {
+        ingredientsContainer.style.display = 'block'; // Show the input field
+    } else {
+        ingredientsContainer.style.display = 'none'; // Hide the input field
+    }
+});
+
     </script>
 </body>
 <script>
