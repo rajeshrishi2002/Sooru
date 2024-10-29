@@ -182,6 +182,9 @@
 </head>
 <body class="background-image flex items-center justify-center min-h-screen">
     <div class="w-96">
+        <button id="uploadIngredientsButton" class="text-lg font-semibold gradient-button w-full" style="margin-bottom: 27px; width: 347px; margin-left: 20px; color:#00820f;">Ingredients I Have</button>
+        <div id="ingredientsContainer" class="mt-4"></div>
+
         <div class="relative mb-4">
             <input id="dishInput" type="text" placeholder="Enter Your Dish Name Here...." class="w-full p-3 focus:outline-none mb-4" 
                 style="width: 347px; margin-left: 20px; border: none; color: #00820f; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.434); padding-left: 50px;">
@@ -201,10 +204,8 @@
             <div id="autocomplete-list" class="autocomplete-list"></div>
         </div>
         <button class="text-lg font-semibold searchButton gradient-button w-full" style="margin-top: -4px; width: 347px; margin-left: 20px; color:#00820f;">Search</button>
-        <button id="uploadIngredientsButton" class="text-lg font-semibold gradient-button w-full" style="margin-top: 17px; width: 347px; margin-left: 20px; color:#00820f;">Ingredients I Have</button>
-
+        
         <div id="recipeContainer" class="mt-4"></div>
-        <div id="ingredientsContainer" class="mt-4"></div>
     </div>
 
     <script>
